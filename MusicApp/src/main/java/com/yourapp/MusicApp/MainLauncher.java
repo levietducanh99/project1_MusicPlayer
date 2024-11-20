@@ -7,5 +7,5 @@ public class MainLauncher {
         // Gọi phương thức launch() của lớp MusicAppApplication
         Application.launch(MusicAppApplication.class, args);  
         }
-    
+   
 }

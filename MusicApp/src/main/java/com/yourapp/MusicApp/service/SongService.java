@@ -2,28 +2,44 @@ package com.yourapp.MusicApp.service;
 
 import com.yourapp.MusicApp.model.Song;
 import com.yourapp.MusicApp.repository.SongRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.util.List;
 
-@Service
 public class SongService {
 
-    private final SongRepository songRepository;
+    private SongRepository songRepository;
 
-    @Autowired
-    public SongService(SongRepository songRepository) {
-        this.songRepository = songRepository;
+    public SongService() {
+        this.songRepository = new SongRepository();
     }
 
-    public void addSongFromFile(String title, String artist, String filePath, long duration) {
-        Song song = new Song();
-        song.setTitle(title);
-        song.setArtist(artist);
-        song.setFilePath(filePath);
-        song.setDuration(duration);  // Đảm bảo có trường duration trong model Song
+    // Lấy tất cả bài hát
+    public List<Song> getAllSongs() {
+        return songRepository.findAll();
+    }
 
+    // Tìm bài hát theo tên
+    public List<Song> getSongsByTitle(String title) {
+        return songRepository.findByTitle(title);
+    }
+
+    // Tìm bài hát theo ca sĩ
+    public List<Song> getSongsByArtist(String artist) {
+        return songRepository.findByArtist(artist);
+    }
+
+    // Lưu bài hát
+    public void saveSong(Song song) {
         songRepository.save(song);
+    }
+
+    // Xóa bài hát
+    public void deleteSong(Song song) {
+        songRepository.delete(song);
+    }
+
+    // Cập nhật bài hát
+    public void updateSong(Song song) {
+        songRepository.update(song);
     }
 }

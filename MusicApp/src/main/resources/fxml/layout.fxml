@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.MusicApp.controller.MusicAppController">
+    <VBox spacing="10" alignment="CENTER">
+        <!-- Title Label -->
+        <Label fx:id="label" text="Welcome to Music App!" style="-fx-font-size: 18px;"/>
+
+        <!-- Song Search Field -->
+        <TextField fx:id="songSearchField" promptText="Search for a song" style="-fx-pref-width: 200px;"/>
+
+        <!-- List of Songs -->
+        <ListView fx:id="songListView" style="-fx-pref-width: 200px; -fx-pref-height: 150px;"/>
+
+        <!-- Volume Control -->
+        <Slider fx:id="volumeSlider" min="0" max="100" value="50" style="-fx-pref-width: 200px;"/>
+
+        <!-- Play Button -->
+        <Button text="Play" onAction="#handlePlayButton" style="-fx-pref-width: 100px;"/>
+    </VBox>
+</StackPane>

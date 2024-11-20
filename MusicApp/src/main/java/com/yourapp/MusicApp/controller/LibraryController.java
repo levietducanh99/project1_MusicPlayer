@@ -1,9 +1,13 @@
 package com.yourapp.MusicApp.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.jaudiotagger.audio.AudioFile;
@@ -31,7 +35,7 @@ public class LibraryController {
 
     @FXML
     private void handleGoBackToHome(ActionEvent event) {
-        app.showHomePage(); // Quay lại trang Home
+        app.showPlayerPage(); // Quay lại trang Home
     }
 
     // Thiết lập đối tượng MusicAppApplication cho controller
@@ -68,6 +72,7 @@ public class LibraryController {
 
                 // Hiển thị thông báo hoặc xử lý gì đó sau khi thêm thành công
                 System.out.println("Bài hát đã được thêm: " + title + " - " + artist);
+                refreshLibrary();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -83,4 +88,53 @@ public class LibraryController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    @FXML
+    private ListView<Song> songListView;
+    @FXML
+    private void showAllSongs() {
+    	
+        try {
+            // Lấy danh sách bài hát từ cơ sở dữ liệu
+            ObservableList<Song> songList = FXCollections.observableArrayList(songRepository.findAll());
+
+            // Gán danh sách bài hát vào ListView
+            songListView.setItems(songList);
+
+            // Thiết lập cách hiển thị (tên bài hát và ca sĩ) trong ListView
+            songListView.setCellFactory(listView -> new javafx.scene.control.ListCell<Song>() {
+                @Override
+                protected void updateItem(Song song, boolean empty) {
+                    super.updateItem(song, empty);
+                    if (empty || song == null) {
+                        setText(null);
+                    } else {
+                        setText(song.getTitle() + " - " + song.getArtist());
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorDialog("Lỗi khi tải danh sách bài hát", e.getMessage());
+        }
+    }
+    @FXML
+    public void initialize() {
+        // Gọi phương thức showAllSongs() để hiển thị danh sách bài hát từ cơ sở dữ liệu
+        showAllSongs();
+        songListView.setOnMouseClicked(this::handleSongDoubleClick);
+    }
+    public void handleSongDoubleClick(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            Song selectedSong = songListView.getSelectionModel().getSelectedItem();
+            if (selectedSong != null) {
+                app.showPlayerAndPlay(selectedSong);  // Chuyển đến trang Player và phát bài hát
+            }
+        }
+    }
+    public void refreshLibrary() {
+        // Cập nhật danh sách bài hát trong giao diện, giả sử bạn dùng ListView
+    	showAllSongs();
+    }
+
 }

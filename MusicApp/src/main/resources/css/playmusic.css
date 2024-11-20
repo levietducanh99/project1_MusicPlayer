@@ -1,0 +1,52 @@
+/* Phong cách cho nút có lớp PlayMusic */
+.PlayMusic {
+    -fx-background-color: #77eb34;
+}
+
+/* Phong cách cho nút có lớp GotoLibrary */
+.GotoLibrary {
+    -fx-background-color: #0ecfc8;
+}
+
+/* Phong cách cho tất cả các label */
+.label {
+    -fx-text-fill: darkred; /* Màu chữ */
+}
+
+/* Phong cách nút với lớp green */
+.green {
+    -fx-background-color:
+        linear-gradient(#f0ff35, #a9ff00),
+        radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
+    -fx-background-radius: 6, 5; /* Bo tròn góc */
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 5, 0.0, 0, 1); /* Đổ bóng */
+}
+.pause-button {
+    -fx-background-color: transparent; /* Loại bỏ màu nền */
+    -fx-background-image: url("/pic/pause.png"); /* Đường dẫn tới ảnh */
+    -fx-background-repeat: no-repeat; /* Không lặp lại ảnh */
+    -fx-background-size: cover; /* Phủ kín nút */
+    -fx-background-position: center; /* Căn giữa hình ảnh */
+    -fx-border-color: transparent; /* Loại bỏ viền nếu cần */
+    -fx-padding: 0; /* Loại bỏ khoảng cách padding */
+    -fx-pref-width: 60px; /* Đặt chiều rộng phù hợp với ảnh */
+    -fx-pref-height: 60px; /* Đặt chiều cao phù hợp với ảnh */
+   /*   -fx-text-fill: transparent; */
+ 
+}
+/* Lớp CSS khi nút Pause được nhấn (tạm dừng) */
+.pause-button.paused {
+    -fx-background-color: transparent;
+    -fx-background-image: url("/pic/play.png"); /* Ảnh khi tạm dừng */
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-pref-width: 60px;
+    -fx-pref-height: 60px;
+   /*   -fx-text-fill: transparent; */
+
+}
+

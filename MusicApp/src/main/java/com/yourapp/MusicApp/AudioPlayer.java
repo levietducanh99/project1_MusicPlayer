@@ -1,75 +1,65 @@
 package com.yourapp.MusicApp;
 
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.Player;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
-import javax.sound.sampled.*;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.util.function.Consumer;
 
 public class AudioPlayer {
+    private MediaPlayer mediaPlayer;
 
-    private Clip clip;
-    private Player mp3Player;
+    // Phương thức phát nhạc
+    public void play(String filePath) {
+        stop(); // Dừng bài hát hiện tại trước khi phát bài mới
 
-    // Phương thức để phát file âm thanh (hỗ trợ định dạng .wav và .mp3)
-    public void play(String filePath) throws UnsupportedAudioFileException, IOException, LineUnavailableException, JavaLayerException {
-        if (filePath.toLowerCase().endsWith(".wav")) {
-            playWav(filePath);
-        } else if (filePath.toLowerCase().endsWith(".mp3")) {
-            playMp3(filePath);
-        } else {
-            throw new UnsupportedAudioFileException("Unsupported audio file format: " + filePath);
-        }
+        // Tạo MediaPlayer từ file
+        Media media = new Media(new File(filePath).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play(); // Bắt đầu phát
     }
 
-    private void playWav(String filePath) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        File audioFile = new File(filePath);
-        
-        // Kiểm tra nếu file tồn tại
-        if (!audioFile.exists()) {
-            throw new IOException("File không tồn tại: " + filePath);
-        }
-        
-        AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-        AudioFormat format = audioStream.getFormat();
-        
-        DataLine.Info info = new DataLine.Info(Clip.class, format);
-        clip = (Clip) AudioSystem.getLine(info);
-        clip.open(audioStream);
-        
-        clip.start();  // Bắt đầu phát nhạc
-    }
-
-    private void playMp3(String filePath) throws JavaLayerException, IOException {
-        FileInputStream fileInputStream = new FileInputStream(filePath);
-        mp3Player = new Player(fileInputStream);
-        new Thread(() -> {
-            try {
-                mp3Player.play();
-            } catch (JavaLayerException e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
+	    // Phương thức tạm dừng hoặc tiếp tục phát
+	    public void pause() {
+	        if (mediaPlayer != null) {
+	            MediaPlayer.Status status = mediaPlayer.getStatus();
+	            if (status == MediaPlayer.Status.PLAYING) {
+	                mediaPlayer.pause(); // Tạm dừng
+	            } else if (status == MediaPlayer.Status.PAUSED) {
+	                mediaPlayer.play(); // Tiếp tục phát
+	            }
+	        }
+	    }
 
     // Phương thức dừng phát nhạc
     public void stop() {
-        if (clip != null && clip.isRunning()) {
-            clip.stop();  // Dừng phát nhạc
-        } else if (mp3Player != null) {
-            mp3Player.close();  // Dừng phát nhạc MP3
+        if (mediaPlayer != null) {
+            mediaPlayer.stop(); // Dừng phát
+            mediaPlayer = null; // Giải phóng MediaPlayer
         }
     }
-
-    // Phương thức phát nhạc lặp lại liên tục (không áp dụng cho MP3 vì JLayer không hỗ trợ lặp)
-    public void loop() {
-        // Bạn có thể cài đặt logic để lặp lại nhạc WAV
-        if (clip != null) {
-            clip.loop(Clip.LOOP_CONTINUOUSLY);  // Phát nhạc lặp lại liên tục
+    public void speedChange(double value) {
+        if (mediaPlayer != null) {
+            mediaPlayer.setRate(value); // chỉnh tốc độ phát
+            
         }
     }
+    public double getTotalDuration() {
+        return mediaPlayer.getTotalDuration().toSeconds(); // Tổng thời gian bài hát
+    }
 
+    public void seek(double seconds) {
+        mediaPlayer.seek(Duration.seconds(seconds)); // Tua đến thời gian
+    }
+
+    public void setOnProgressListener(Consumer<Double> listener) {
+        mediaPlayer.currentTimeProperty().addListener((obs, oldTime, newTime) -> {
+            listener.accept(newTime.toSeconds());
+        });
+    }
+    public double getCurrentPosition() {
+        return mediaPlayer.getCurrentTime().toSeconds();
+    }
 
 }

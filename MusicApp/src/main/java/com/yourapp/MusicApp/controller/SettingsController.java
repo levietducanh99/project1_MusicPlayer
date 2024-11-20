@@ -13,7 +13,7 @@ public class SettingsController {
 
     @FXML
     private void handleGoBackToHome(ActionEvent event) {
-        app.showHomePage(); // Quay lại trang Home
+        app.showPlayerPage(); // Quay lại trang Home
     }
 
     // Thiết lập đối tượng MusicAppApplication cho controller
