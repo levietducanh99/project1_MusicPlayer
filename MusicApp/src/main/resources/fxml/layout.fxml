@@ -8,7 +8,7 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.MusicApp.controller.MusicAppController">
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.myfirstMusicApp.controller.MusicAppController">
     <VBox spacing="10" alignment="CENTER">
         <!-- Title Label -->
         <Label fx:id="label" text="Welcome to Music App!" style="-fx-font-size: 18px;"/>

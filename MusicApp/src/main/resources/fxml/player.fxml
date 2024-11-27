@@ -6,48 +6,91 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import com.yourapp.myfirstMusicApp.uiComponent.SeekSlider?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.MusicApp.controller.PlayerController">
-    <Button layoutX="849.0" layoutY="678.0" onAction="#handlePlaySong1" prefHeight="60.0" prefWidth="74.0" styleClass="sidebarItem" text="PlayMusic" AnchorPane.leftAnchor="849.0" AnchorPane.topAnchor="678.0" />
-   <Label alignment="CENTER" layoutX="734.0" layoutY="304.0" prefHeight="72.0" prefWidth="212.0" stylesheets="@../css/playmusic.css" text="This is music player app">
-      <styleClass>
-         <String fx:value="label" />
-         <String fx:value="PlayMusic" />
-      </styleClass></Label>
-   <Button layoutX="663.0" layoutY="677.0" mnemonicParsing="false" onAction="#handleStop" prefHeight="60.0" prefWidth="66.0" styleClass="GotoLibrary" stylesheets="@../css/playmusic.css" text="Stop" />
-   <Button fx:id="pauseButton" layoutX="763.0" layoutY="693.0" mnemonicParsing="false" onAction="#handlePause" prefHeight="42.0" prefWidth="49.0" styleClass="pause-button" stylesheets="@../css/playmusic.css" text="pause" />
-   <MenuButton layoutX="945.0" layoutY="710.0" mnemonicParsing="false" text="Speed">
-     <items>
-       <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x1" />
-       <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x2" />
-         <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x0.5" />
-         <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x1.5" />
-     </items>
-   </MenuButton>
- 
-   <Slider fx:id="seekSlider" layoutX="615.0" layoutY="622.0" onMouseDragged="#handleSeek" prefHeight="42.0" prefWidth="441.0" />
-   <ImageView fx:id="albumArtView" fitHeight="162.0" fitWidth="212.0" layoutX="717.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true" />
-   <VBox prefHeight="1080.0" prefWidth="230.0" style="-fx-background-color: #53BDA5;" stylesheets="@../css/abc.css">
-      <children>
-         <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="230.0" text="Button" />
-         <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="230.0" text="Button" />
-         <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="230.0" text="Button" />
-         <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="230.0" text="Button" />
-          <Button onAction="#handleGoToLibraryButton" prefHeight="99.0" prefWidth="229.0" styleClass="menuItem" text="Go to Library">
-            <stylesheets>
-               <URL value="@../css/playmusic.css" />
-               <URL value="@../css/abc.css" />
-            </stylesheets>
-         </Button>
-      </children>
-   </VBox>
-   <stylesheets>
-      <URL value="@../css/playmusic.css" />
-      <URL value="@../css/abc.css" />
-   </stylesheets>
-   
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
+            prefHeight="800.0" prefWidth="1280.0" 
+            xmlns="http://javafx.com/javafx/23.0.1" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            
+            fx:controller="com.yourapp.myfirstMusicApp.controller.PlayerController">
+
+    <!-- Nút Play Music -->
+    <Button layoutX="849.0" layoutY="678.0" 
+            onAction="#handlePlaySong1" 
+            prefHeight="60.0" prefWidth="74.0" 
+            styleClass="sidebarItem" text="PlayMusic" 
+            AnchorPane.leftAnchor="849.0" AnchorPane.topAnchor="678.0" />
+
+    <!-- Label hiển thị -->
+    <Label alignment="CENTER" layoutX="734.0" layoutY="304.0" 
+           prefHeight="72.0" prefWidth="212.0" 
+           stylesheets="@../css/playmusic.css" text="This is music player app">
+        <styleClass>
+            <String fx:value="label" />
+            <String fx:value="PlayMusic" />
+        </styleClass>
+    </Label>
+
+    <!-- Nút Stop -->
+    <Button layoutX="663.0" layoutY="677.0" 
+            mnemonicParsing="false" 
+            onAction="#handleStop" 
+            prefHeight="60.0" prefWidth="66.0" 
+            styleClass="GotoLibrary" 
+            stylesheets="@../css/playmusic.css" text="Stop" />
+
+    <!-- Nút Pause -->
+    <Button fx:id="pauseButton" layoutX="763.0" layoutY="693.0" 
+            mnemonicParsing="false" 
+            onAction="#handlePause" 
+            prefHeight="42.0" prefWidth="49.0" 
+            styleClass="pause-button" 
+            stylesheets="@../css/playmusic.css" text="pause" />
+
+    <!-- MenuButton chọn tốc độ -->
+    <MenuButton layoutX="945.0" layoutY="710.0" 
+                mnemonicParsing="false" text="Speed">
+        <items>
+            <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x1" />
+            <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x2" />
+            <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x0.5" />
+            <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x1.5" />
+        </items>
+    </MenuButton>
+
+    <!-- SeekSlider -->
+    <SeekSlider fx:id="seekSlider" layoutX="615.0" layoutY="622.0" 
+                       prefHeight="42.0" prefWidth="441.0" />
+
+    <!-- Hình ảnh bìa album -->
+    <ImageView fx:id="albumArtView" fitHeight="162.0" fitWidth="212.0" 
+               layoutX="717.0" layoutY="412.0" 
+               pickOnBounds="true" preserveRatio="true" />
+
+    <!-- Sidebar -->
+    <VBox prefHeight="1080.0" prefWidth="230.0" style="-fx-background-color: #53BDA5;" stylesheets="@../css/abc.css">
+        <children>
+            <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="230.0" text="Button" />
+            <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="230.0" text="Button" />
+            <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="230.0" text="Button" />
+            <Button mnemonicParsing="false" prefHeight="95.0" prefWidth="230.0" text="Button" />
+            <Button onAction="#handleGoToLibraryButton" prefHeight="99.0" prefWidth="229.0" 
+                    styleClass="menuItem" text="Go to Library">
+                <stylesheets>
+                    <URL value="@../css/playmusic.css" />
+                    <URL value="@../css/abc.css" />
+                </stylesheets>
+            </Button>
+        </children>
+    </VBox>
+
+    <!-- Stylesheets -->
+    <stylesheets>
+        <URL value="@../css/playmusic.css" />
+        <URL value="@../css/abc.css" />
+    </stylesheets>
 </AnchorPane>
