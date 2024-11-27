@@ -1,5 +1,7 @@
 package com.yourapp.MusicApp;
 
+import javafx.scene.image.Image;
+import java.io.ByteArrayInputStream;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -7,17 +9,28 @@ import javafx.util.Duration;
 import java.io.File;
 import java.util.function.Consumer;
 
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.tag.FieldKey;
+import org.jaudiotagger.tag.Tag;
+
 public class AudioPlayer {
     private MediaPlayer mediaPlayer;
-
+    private String currentFilePath;
     // Phương thức phát nhạc
     public void play(String filePath) {
         stop(); // Dừng bài hát hiện tại trước khi phát bài mới
-
+        this.currentFilePath = filePath;
         // Tạo MediaPlayer từ file
         Media media = new Media(new File(filePath).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play(); // Bắt đầu phát
+    }
+    // Phương thức thiết lập hành động khi bài hát kết thúc
+    public void setOnEndOfMedia(Runnable action) {
+        if (mediaPlayer != null) {
+            mediaPlayer.setOnEndOfMedia(action);
+        }
     }
 
 	    // Phương thức tạm dừng hoặc tiếp tục phát
@@ -61,5 +74,24 @@ public class AudioPlayer {
     public double getCurrentPosition() {
         return mediaPlayer.getCurrentTime().toSeconds();
     }
+    public Image extractAlbumArt() {
+        if (currentFilePath == null || currentFilePath.isEmpty()) {
+            return null; // Không có file nào đang phát
+        }
 
+        try {
+            // Đọc file MP3 và metadata
+            AudioFile audioFile = AudioFileIO.read(new File(currentFilePath));
+            Tag tag = audioFile.getTag();
+
+            if (tag != null && tag.hasField(FieldKey.COVER_ART)) {
+                // Lấy dữ liệu ảnh bìa
+                byte[] imageData = tag.getFirstArtwork().getBinaryData();
+                return new Image(new ByteArrayInputStream(imageData)); // Trả về ảnh dạng Image
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null; // Không tìm thấy ảnh bìa
+    }
 }

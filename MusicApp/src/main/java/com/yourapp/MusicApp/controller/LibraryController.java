@@ -21,18 +21,23 @@ import com.yourapp.MusicApp.repository.SongRepository;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class LibraryController {
 
     private MusicAppApplication app;
-    
+    private List<Song> songLibrary;
     private SongRepository songRepository;
 
     // Constructor to inject SongRepository
     public LibraryController() {
         this.songRepository = new SongRepository(); // Assuming SongRepository is properly initialized
     }
-
+    public void initializeLibrary() {
+        // Lấy tất cả bài hát từ cơ sở dữ liệu và lưu vào songLibrary
+        songLibrary = songRepository.findAll();
+    }
+    
     @FXML
     private void handleGoBackToHome(ActionEvent event) {
         app.showPlayerPage(); // Quay lại trang Home
@@ -136,5 +141,6 @@ public class LibraryController {
         // Cập nhật danh sách bài hát trong giao diện, giả sử bạn dùng ListView
     	showAllSongs();
     }
+    
 
 }

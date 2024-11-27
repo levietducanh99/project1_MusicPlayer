@@ -2,9 +2,12 @@ package com.yourapp.MusicApp;
 
 import com.yourapp.MusicApp.controller.PlayerController;
 import com.yourapp.MusicApp.model.Song;
+import com.yourapp.MusicApp.repository.SongRepository;
 import com.yourapp.MusicApp.controller.LibraryController;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -13,7 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import lombok.Data;
+@Data
 public class MusicAppApplication extends Application {
 
     private Stage primaryStage;
@@ -21,6 +25,18 @@ public class MusicAppApplication extends Application {
     private Scene libraryScene;
     private Scene settingsScene;
     private PlayerController playerController;  // Lưu playerController
+    private ObservableList<Song> playlist = FXCollections.observableArrayList(); // Danh sách bài hát
+    private int currentSongIndex = 0; // Chỉ số bài hát hiện tại
+    @Override
+    public void init() {
+        // Gán danh sách phát từ repository
+        try {
+            playlist.setAll(SongRepository.findAll());
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorDialog("Lỗi", "Không thể tải danh sách bài hát.");
+        }
+    }
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
@@ -97,6 +113,17 @@ public class MusicAppApplication extends Application {
 
     public void showPlayerAndPlay(Song song) {
         try {
+            // Nếu không có bài hát được chỉ định, phát bài hát đầu tiên trong danh sách
+            if (song == null && !playlist.isEmpty()) {
+                song = playlist.get(currentSongIndex);
+            }
+
+            // Kiểm tra xem bài hát có hợp lệ không
+            if (song == null || song.getFilePath() == null) {
+                showErrorDialog("Lỗi", "Không có bài hát hợp lệ để phát.");
+                return;
+            }
+
             // Nếu có bài hát đang phát, dừng nó
             if (isSongPlaying()) {
                 stopCurrentSong();
@@ -105,15 +132,26 @@ public class MusicAppApplication extends Application {
             // Chuyển sang giao diện Player
             primaryStage.setScene(playerScene);
 
-            // Phát bài hát từ thư viện
-            if (song != null && song.getFilePath() != null) {
-                playerController.handlePlaySongFromFile(song.getFilePath());
-            } else {
-                showErrorDialog("Lỗi", "Không có bài hát hợp lệ để phát.");
-            }
+            // Phát bài hát
+            playerController.handlePlaySongFromFile(song.getFilePath());
+
+            // Lắng nghe khi bài hát kết thúc để phát bài tiếp theo
+            playerController.getAudioPlayer().setOnEndOfMedia(() -> {
+                playNextSong();
+            });
+
         } catch (Exception e) {
             e.printStackTrace();
             showErrorDialog("Lỗi khi phát nhạc", "Không thể phát bài hát mới.");
+        }
+    }
+
+    // Phương thức để phát bài hát tiếp theo
+    private void playNextSong() {
+        if (!playlist.isEmpty()) {
+            currentSongIndex = (currentSongIndex + 1) % playlist.size(); // Phát lặp vòng nếu hết danh sách
+            Song nextSong = playlist.get(currentSongIndex);
+            showPlayerAndPlay(nextSong);
         }
     }
     

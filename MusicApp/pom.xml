@@ -101,6 +101,11 @@
 
 
 
+		<dependency>
+			<groupId>com.project.oop</groupId>
+			<artifactId>hellospringboot</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

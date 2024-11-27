@@ -31,7 +31,7 @@ public class SongRepository {
     }
 
     // Lấy tất cả bài hát từ cơ sở dữ liệu
-    public List<Song> findAll() {
+    public static List<Song> findAll() {
         EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery("SELECT s FROM Song s", Song.class).getResultList();

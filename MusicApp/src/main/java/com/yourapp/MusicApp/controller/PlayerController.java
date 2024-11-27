@@ -2,6 +2,8 @@ package com.yourapp.MusicApp.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.yourapp.MusicApp.AudioPlayer;
 import com.yourapp.MusicApp.MusicAppApplication;
@@ -14,25 +16,64 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
+import lombok.Data;
+@Data
 public class PlayerController {
 
     private MusicAppApplication app;
     private AudioPlayer audioPlayer;  // Không khởi tạo sẵn AudioPlayer
     private boolean isPlaying = false;  // Trạng thái phát nhạc
     private boolean isPaused = false;   // Trạng thái tạm dừng
+    private List<Song> currentPlaylist = new ArrayList<>();
+    private int currentSongIndex = 0;
 
     private Song currentSong;  // Lưu trữ bài hát hiện tại đang phát
-
+    @FXML
+    private ImageView albumArtView;
+    @FXML
+    private Button pauseButton;  // Liên kết với nút pause trong FXML
+    @FXML
+    private Slider seekSlider;
+    
     // Cung cấp phương thức để controller nhận tham chiếu của MusicAppApplication
     public void setApp(MusicAppApplication app) {
         this.app = app;
     }
 
+    public void initialize() {
+        // Liên kết Slider với trạng thái tiến trình của bài hát
+        if (audioPlayer != null) {
+            audioPlayer.setOnProgressListener(currentTime -> {
+                if (!seekSlider.isValueChanging()) { // Chỉ cập nhật nếu người dùng không kéo
+                    double progress = currentTime / audioPlayer.getTotalDuration();
+                    seekSlider.setValue(progress * 100); // Đặt giá trị cho Slider (0 - 100)
+                }
+            });
+
+            // Cài đặt tối đa cho Slider
+            seekSlider.setMax(100);
+        }
+     // Lắng nghe khi giá trị của Slider thay đổi do người dùng kéo
+        seekSlider.setOnMouseReleased(event -> handleSeek());
+
+        // Nếu cần cập nhật khi giá trị Slider đang thay đổi (khi kéo), dùng sự kiện này
+        seekSlider.valueChangingProperty().addListener((observable, wasChanging, isChanging) -> {
+            if (!isChanging) {
+                handleSeek(); // Gọi lại handleSeek khi người dùng thả chuột
+            }
+        });
+     // Khi người dùng bấm vào slider, chúng ta sẽ tua đến vị trí đó
+        seekSlider.setOnMouseClicked(event -> handleSeekByClick(event));
+    }
+    
+    
+    
     // Nhận bài hát từ MusicAppApplication và bắt đầu phát nhạc
     public void setSong(Song song) {
         this.currentSong = song;
@@ -57,47 +98,15 @@ public class PlayerController {
         if (selectedFile != null) {
             // Lấy đường dẫn file đã chọn
             String filePath = selectedFile.getAbsolutePath();
-            if (audioPlayer == null) {
-                audioPlayer = new AudioPlayer();
-            }
-            // Cố gắng phát bài hát
-            try {
-                audioPlayer.play(filePath);  // Sử dụng phương thức play từ AudioPlayer để phát nhạc
-                System.out.println("Đang phát bài hát: " + selectedFile.getName());
-                isPlaying = true;
-            } catch (Exception e) {
-                // In lỗi nếu không thể phát bài hát
-                e.printStackTrace();
-                showError("Error", "Unable to play the selected music file.");
-            }
-        } else {
-            // Thông báo nếu không có file nào được chọn
-            showError("No File Selected", "Please select a valid audio file.");
-        }
+            handlePlaySongFromFile(filePath);
+
+    }
     }
     @FXML
-    public void handlePlaySong() {
+    public void handlePlaySongFromEntity(Song aSong) {
         // Nếu bài hát đã được chọn, thì phát nhạc
-        if (currentSong != null) {
-            try {
-                // Khởi tạo AudioPlayer nếu chưa khởi tạo
-                if (audioPlayer == null) {
-                    audioPlayer = new AudioPlayer();
-                }
-                
-                // Phát bài hát từ đường dẫn của file
-                audioPlayer.play(currentSong.getFilePath()); 
-                isPlaying = true;
-                isPaused = false;  // Đặt trạng thái pause là false khi bắt đầu phát
-                System.out.println("Đang phát bài hát: " + currentSong.getTitle());
-            } catch (Exception e) {
-                e.printStackTrace();
-                showError("Error", "Unable to play the selected music file.");
-            }
-        } else {
-            // Thông báo nếu không có bài hát nào được chọn
-            showError("No Song Selected", "Please select a valid song to play.");
-        }
+    		if ( aSong == null)  showError("No Music Playing", "There is no song");
+    		handlePlaySongFromFile(aSong.getFilePath());
     }
 
     // Hàm hiển thị thông báo lỗi nếu gặp sự cố
@@ -122,8 +131,7 @@ public class PlayerController {
         }
     }
 
-    @FXML
-    private Button pauseButton;  // Liên kết với nút pause trong FXML
+   
 
     @FXML
     public void handlePause() {
@@ -184,6 +192,16 @@ public class PlayerController {
                 // Khởi tạo AudioPlayer và phát nhạc từ file
                 audioPlayer = new AudioPlayer();
                 audioPlayer.play(filePath); // Dùng phương thức play từ AudioPlayer
+                
+             // Hiển thị ảnh bìa bài hát
+                Image albumArt = audioPlayer.extractAlbumArt(); // Gọi phương thức từ AudioPlayer
+                if (albumArt != null) {
+                    albumArtView.setImage(albumArt); // albumArtView là một ImageView
+                } else {
+                    albumArtView.setImage(null); // Xóa ảnh nếu không tìm thấy
+                }
+                
+                
              // Liên kết Slider với bài hát
                 audioPlayer.setOnProgressListener(currentTime -> {
                     if (!seekSlider.isValueChanging()) {
@@ -203,33 +221,8 @@ public class PlayerController {
             showError("Invalid Song", "The song file path is invalid.");
         }
     }
-    @FXML
-    private Slider seekSlider;
-    public void initialize() {
-        // Liên kết Slider với trạng thái tiến trình của bài hát
-        if (audioPlayer != null) {
-            audioPlayer.setOnProgressListener(currentTime -> {
-                if (!seekSlider.isValueChanging()) { // Chỉ cập nhật nếu người dùng không kéo
-                    double progress = currentTime / audioPlayer.getTotalDuration();
-                    seekSlider.setValue(progress * 100); // Đặt giá trị cho Slider (0 - 100)
-                }
-            });
+   
 
-            // Cài đặt tối đa cho Slider
-            seekSlider.setMax(100);
-        }
-     // Lắng nghe khi giá trị của Slider thay đổi do người dùng kéo
-        seekSlider.setOnMouseReleased(event -> handleSeek());
-
-        // Nếu cần cập nhật khi giá trị Slider đang thay đổi (khi kéo), dùng sự kiện này
-        seekSlider.valueChangingProperty().addListener((observable, wasChanging, isChanging) -> {
-            if (!isChanging) {
-                handleSeek(); // Gọi lại handleSeek khi người dùng thả chuột
-            }
-        });
-     // Khi người dùng bấm vào slider, chúng ta sẽ tua đến vị trí đó
-        seekSlider.setOnMouseClicked(event -> handleSeekByClick(event));
-    }
 
     @FXML
     private void handleSeek() {
@@ -257,6 +250,34 @@ public class PlayerController {
             
         } else {
             System.out.println("AudioPlayer is not initialized or no song is playing.");
+        }
+    }
+    private void playNextSong() {
+        currentSongIndex++;
+        if (currentSongIndex < currentPlaylist.size()) {
+            handlePlaySongFromEntity(currentPlaylist.get(currentSongIndex));
+        } else {
+            System.out.println("Đã phát hết danh sách bài hát.");
+        }
+    }
+
+    private void setupEndOfSongListener() {
+        // Giả sử AudioPlayer có một listener để phát hiện bài hát kết thúc
+        audioPlayer.setOnEndOfMedia(() -> {
+            playNextSong();
+        });
+    }
+    public void playAllSongs(List<Song> songLibrary, Song selectedSong) {
+        // Lưu danh sách bài hát hiện tại
+        currentPlaylist = songLibrary;
+
+        // Xác định chỉ mục của bài hát được chọn
+        currentSongIndex = currentPlaylist.indexOf(selectedSong);
+
+        // Phát bài hát được chọn
+        if (currentSongIndex != -1) {
+            handlePlaySongFromEntity(currentPlaylist.get(currentSongIndex));
+            setupEndOfSongListener();
         }
     }
 
