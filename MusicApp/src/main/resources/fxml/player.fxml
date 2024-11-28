@@ -64,7 +64,7 @@
         </children>
     </VBox>
    <NextButton fx:id="nextButton" layoutX="877.0" layoutY="699.0" text="next" />
-   <Button layoutX="946.0" layoutY="706.0" mnemonicParsing="false" onAction="#handleNextButton" text="next2" />
+   
 
     <!-- Stylesheets -->
     <stylesheets>

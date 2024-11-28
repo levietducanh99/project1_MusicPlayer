@@ -95,4 +95,5 @@ public class AudioPlayer {
         }
         return null; // Không tìm thấy ảnh bìa
     }
+    
 }

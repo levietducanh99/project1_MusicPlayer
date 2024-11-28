@@ -137,9 +137,9 @@ public class MusicAppApplication extends Application {
          playerController.playAllSongs(playlist, song);
 
             // Lắng nghe khi bài hát kết thúc để phát bài tiếp theo
-            playerController.getAudioPlayer().setOnEndOfMedia(() -> {
-                playNextSong();
-            });
+        //    playerController.getAudioPlayer().setOnEndOfMedia(() -> {
+        //        playNextSong();
+        //    });
 
         } catch (Exception e) {
             e.printStackTrace();
