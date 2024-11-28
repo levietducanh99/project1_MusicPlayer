@@ -207,7 +207,8 @@ public class PlayerController {
 
  
     public void playNextSong() {
-        currentSongIndex++;
+    	audioPlayer.stop();
+    	  currentSongIndex = (currentSongIndex + 1) % currentPlaylist.size(); // Phát lặp vòng nếu hết danh sách
         if (currentSongIndex < currentPlaylist.size()) {
             handlePlaySongFromEntity(currentPlaylist.get(currentSongIndex));
         } else {
@@ -242,17 +243,6 @@ public class PlayerController {
         }
     }
 
-    @FXML
-    private void handleNextButton() {
-        if (currentPlaylist == null || currentPlaylist.isEmpty()) {
-            System.out.println("Danh sách bài hát rỗng khi bấm nút Next.");
-            return;
-        }
-        
-        System.out.println("Current Playlist size: " + currentPlaylist.size());
-        System.out.println("Current Song Index: " + currentSongIndex);
-        
-        playNextSong(); // Gọi hàm playNextSong() từ PlayerController
-    }
+
 
 }
