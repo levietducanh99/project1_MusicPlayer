@@ -128,9 +128,13 @@ public class MusicAppApplication extends Application {
 
             // Chuyển sang giao diện Player
             primaryStage.setScene(playerScene);
+            System.out.println("Danh sách bài hát: " + playlist);
+            System.out.println("Bài hát được chọn: " + song);
 
             // Phát bài hát
-            playerController.handlePlaySongFromFile(song.getFilePath());
+       //    playerController.handlePlaySongFromFile(song.getFilePath());
+        //    playerController.handlePlaySongFromEntity(song);
+         playerController.playAllSongs(playlist, song);
 
             // Lắng nghe khi bài hát kết thúc để phát bài tiếp theo
             playerController.getAudioPlayer().setOnEndOfMedia(() -> {

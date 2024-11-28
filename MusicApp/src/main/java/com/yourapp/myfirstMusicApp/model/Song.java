@@ -53,4 +53,24 @@ public class Song {
         this.filePath = filePath;
         this.duration = duration;
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;  // Trường hợp so sánh với chính nó
+        }
+
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;  // Trường hợp null hoặc khác lớp
+        }
+
+        Song otherSong = (Song) obj;
+        return this.id == otherSong.id;  // So sánh theo id
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(id);  // Sử dụng Long.hashCode() nếu id là Long
+    }
+
+
 }

@@ -9,18 +9,20 @@ import com.yourapp.myfirstMusicApp.AudioPlayer;
 import com.yourapp.myfirstMusicApp.MusicAppApplication;
 import com.yourapp.myfirstMusicApp.model.History;
 import com.yourapp.myfirstMusicApp.model.Song;
+import com.yourapp.myfirstMusicApp.uiComponent.NextButton;
+import com.yourapp.myfirstMusicApp.uiComponent.PauseButton;
+
 import com.yourapp.myfirstMusicApp.uiComponent.SeekSlider;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -32,14 +34,21 @@ public class PlayerController {
     private AudioPlayer audioPlayer;  // Không khởi tạo sẵn AudioPlayer
     private boolean isPlaying = false;  // Trạng thái phát nhạc
     private boolean isPaused = false;   // Trạng thái tạm dừng
-    private List<Song> currentPlaylist = new ArrayList<>();
+    
+    private ObservableList<Song> currentPlaylist = FXCollections.observableArrayList();
+
     private int currentSongIndex = 0;
 
     private Song currentSong;  // Lưu trữ bài hát hiện tại đang phát
+    
+    
+    @FXML
+    private NextButton nextButton;  // Liên kết với nút Next trong FXML
+    @FXML
+    private PauseButton pauseButton;  // Liên kết với PauseButton trong FXML
     @FXML
     private ImageView albumArtView;
-    @FXML
-    private Button pauseButton;  // Liên kết với nút pause trong FXML
+  
     @FXML
     private SeekSlider seekSlider; // Sử dụng SeekSlider
     
@@ -52,9 +61,13 @@ public class PlayerController {
     	// Khởi tạo SeekSlider nếu cần
         if (seekSlider == null) {
             throw new IllegalStateException("SeekSlider is not initialized in FXML.");
+            
         }
-
-        // Không cần gọi các thiết lập slider trực tiếp, đã được quản lý bởi SeekSlider
+        if (nextButton == null) {
+            System.out.println("NextButton không được khởi tạo từ FXML.");
+            return;
+        }
+        nextButton.bindPlayerController(this);
     }
     
     
@@ -119,23 +132,6 @@ public class PlayerController {
    
 
     @FXML
-    public void handlePause() {
-        // Gọi phương thức pause từ AudioPlayer
-      if(audioPlayer != null)  audioPlayer.pause();
-      else System.out.print("no media played");
-
-        // Kiểm tra trạng thái phát nhạc và thay đổi hình ảnh của nút
-        if (isPaused) {
-        	pauseButton.getStyleClass().remove("paused");
-        } else {
-        	pauseButton.getStyleClass().add("paused");
-        }
-
-        // Lật trạng thái paused
-        isPaused = !isPaused;
-    }
-
-    @FXML
     public void changeSpeed(ActionEvent event) {
         if (audioPlayer != null) {
             // Lấy MenuItem từ sự kiện
@@ -174,6 +170,10 @@ public class PlayerController {
         // Kiểm tra nếu filePath hợp lệ
         if (filePath != null && !filePath.isEmpty()) {
             try {
+            	// Nếu có bài hát đang phát, reset trạng thái PauseButton
+                if (pauseButton != null) {
+                    pauseButton.resetPauseButton();  // Đặt lại trạng thái nút pause
+                }
                 // Khởi tạo AudioPlayer và phát nhạc từ file
                 audioPlayer = new AudioPlayer();
                 audioPlayer.play(filePath); // Dùng phương thức play từ AudioPlayer
@@ -188,6 +188,8 @@ public class PlayerController {
                 
              // Liên kết SeekSlider với AudioPlayer
                 seekSlider.bindAudioPlayer(audioPlayer);
+             // Liên kết PauseButton với AudioPlayer
+                pauseButton.bindAudioPlayer(audioPlayer);
                 isPlaying = true; // Đặt trạng thái phát nhạc là true
                 System.out.println("Đang phát bài hát: " + filePath);
              // Lưu lịch sử nghe nhạc vào cơ sở dữ liệu
@@ -204,7 +206,7 @@ public class PlayerController {
 
 
  
-    private void playNextSong() {
+    public void playNextSong() {
         currentSongIndex++;
         if (currentSongIndex < currentPlaylist.size()) {
             handlePlaySongFromEntity(currentPlaylist.get(currentSongIndex));
@@ -219,18 +221,38 @@ public class PlayerController {
             playNextSong();
         });
     }
-    public void playAllSongs(List<Song> songLibrary, Song selectedSong) {
-        // Lưu danh sách bài hát hiện tại
-        currentPlaylist = songLibrary;
+    public void playAllSongs(ObservableList<Song> songLibrary, Song selectedSong) {
+        System.out.println("Danh sách bài hát hiện tại (trước khi cập nhật): " + currentPlaylist);
+        System.out.println("Danh sách bài hát mới: " + songLibrary);
+
+        // Cập nhật danh sách bài hát
+        this.currentPlaylist.clear();
+        this.currentPlaylist.addAll(songLibrary);
 
         // Xác định chỉ mục của bài hát được chọn
         currentSongIndex = currentPlaylist.indexOf(selectedSong);
+        System.out.println("Chỉ mục bài hát được chọn: " + currentSongIndex);
 
-        // Phát bài hát được chọn
+        // Phát bài hát được chọn nếu tìm thấy
         if (currentSongIndex != -1) {
             handlePlaySongFromEntity(currentPlaylist.get(currentSongIndex));
-            setupEndOfSongListener();
+            setupEndOfSongListener(); // Thiết lập sự kiện khi bài hát kết thúc
+        } else {
+            System.out.println("Không tìm thấy bài hát được chọn trong danh sách.");
         }
+    }
+
+    @FXML
+    private void handleNextButton() {
+        if (currentPlaylist == null || currentPlaylist.isEmpty()) {
+            System.out.println("Danh sách bài hát rỗng khi bấm nút Next.");
+            return;
+        }
+        
+        System.out.println("Current Playlist size: " + currentPlaylist.size());
+        System.out.println("Current Song Index: " + currentSongIndex);
+        
+        playNextSong(); // Gọi hàm playNextSong() từ PlayerController
     }
 
 }
