@@ -9,6 +9,7 @@ import com.yourapp.myfirstMusicApp.AudioPlayer;
 import com.yourapp.myfirstMusicApp.MusicAppApplication;
 import com.yourapp.myfirstMusicApp.model.History;
 import com.yourapp.myfirstMusicApp.model.Song;
+import com.yourapp.myfirstMusicApp.uiComponent.CustomMenu;
 import com.yourapp.myfirstMusicApp.uiComponent.NextButton;
 import com.yourapp.myfirstMusicApp.uiComponent.PauseButton;
 
@@ -20,10 +21,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.Data;
@@ -40,8 +45,9 @@ public class PlayerController {
     private int currentSongIndex = 0;
 
     private Song currentSong;  // Lưu trữ bài hát hiện tại đang phát
-    
-    
+    @FXML
+    private VBox customMenuContainer; // Container hiện tại của bạn
+   
     @FXML
     private NextButton nextButton;  // Liên kết với nút Next trong FXML
     @FXML
@@ -57,7 +63,10 @@ public class PlayerController {
         this.app = app;
     }
 
-    public void initialize() {
+    public void initialize() throws IOException {
+    
+    	app = MusicAppApplication.getInstance();
+    	  System.out.println("app is:  " + app);
     	// Khởi tạo SeekSlider nếu cần
         if (seekSlider == null) {
             throw new IllegalStateException("SeekSlider is not initialized in FXML.");
@@ -68,7 +77,24 @@ public class PlayerController {
             return;
         }
         nextButton.bindPlayerController(this);
-    }
+        // Khởi tạo CustomMenu với MusicAppApplication
+     // Tạo một instance của controller
+       
+        
+        
+     // Khởi tạo CustomMenu và thêm vào mainContainer
+       FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CustomMenu.fxml"));
+       VBox customMenu = loader.load();
+       CustomMenu controller = loader.getController();
+       controller.setApp(app); // Gán app trước
+       System.out.println("app in this is:  " + app);
+       
+       
+        // Chèn CustomMenu vào Pane hiện tại
+        customMenuContainer.getChildren().setAll(customMenu);
+   
+             }
+    
     
     
     
@@ -81,6 +107,7 @@ public class PlayerController {
     }
     @FXML
     public void handleGoToLibraryButton() {
+    	
         app.showLibraryPage(); // Gọi phương thức chuyển đến trang Library
     }
     @FXML
@@ -104,7 +131,9 @@ public class PlayerController {
     public void handlePlaySongFromEntity(Song aSong) {
         // Nếu bài hát đã được chọn, thì phát nhạc
     		if ( aSong == null)  showError("No Music Playing", "There is no song");
+    		
     		handlePlaySongFromFile(aSong.getFilePath());
+    		setupEndOfSongListener();
     }
 
     // Hàm hiển thị thông báo lỗi nếu gặp sự cố
@@ -175,7 +204,9 @@ public class PlayerController {
                     pauseButton.resetPauseButton();  // Đặt lại trạng thái nút pause
                 }
                 // Khởi tạo AudioPlayer và phát nhạc từ file
+                
                 audioPlayer = new AudioPlayer();
+                setupEndOfSongListener();
                 audioPlayer.play(filePath); // Dùng phương thức play từ AudioPlayer
                 
              // Hiển thị ảnh bìa bài hát
