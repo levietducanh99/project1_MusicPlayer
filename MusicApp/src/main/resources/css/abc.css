@@ -1,10 +1,55 @@
-.menuItem:hover{
-    -fx-border-color: #660099;
-    -fx-border-width: 0px 0px 3px 0px;
+
+.bottom_bar 
+{
+-fx-background-color:linear-gradient( from 25% 25% to 100% 100% , #0B1E3E , #4E154C);
+}
+.body_bakground {
+    -fx-background-color:linear-gradient( from 25% 25% to 100% 100% , #054cc8 , #760172);
+}
+.sidebar {
+    -fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #146886, #0B1E3E); /* Gradient background */
+    -fx-padding: 10; /* Padding inside the VBox */
+    -fx-spacing: 10; /* Space between children */
+    -fx-border-color: #4E154C; /* Optional border */
+    -fx-border-width: 2; /* Border width */
+    -fx-border-radius: 10; /* Rounded corners */
+    -fx-background-radius: 10; /* Rounded corners */
 }
 
-.sidebarItem:hover{
-    -fx-background-color: #146886;
-    -fx-border-color: WHITE;
-    -fx-border-width: 0px 0px 0px 3px;
+/* Menu item buttons */
+.menuItem {
+    -fx-background-color: #ffffff; /* Button background color */
+    -fx-text-fill: #146886; /* Button text color */
+    -fx-font-size: 14px; /* Font size */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-padding: 10; /* Padding inside button */
+    -fx-border-radius: 5; /* Rounded corners */
+    -fx-background-radius: 5; /* Rounded corners */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 5, 0, 2, 2); /* Shadow effect */
+}
+
+/* Hover effect for menu items */
+.menuItem:hover {
+    -fx-background-color: #e6f2ff; /* Light blue background on hover */
+    -fx-text-fill: #146886; /* Text color remains */
+    -fx-border-color: #660099; /* Border color */
+    -fx-border-width: 0px 0px 3px 0px; /* Bottom border effect */
+}
+
+/* Sidebar items with alternate styling */
+.sidebarItem {
+    -fx-background-color: #4E154C; /* Purple background */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-size: 14px; /* Font size */
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* Hover effect for sidebar items */
+.sidebarItem:hover {
+    -fx-background-color: #146886; /* Blue background on hover */
+    -fx-border-color: white; /* White border on hover */
+    -fx-border-width: 0px 0px 0px 3px; /* Left border effect */
 }

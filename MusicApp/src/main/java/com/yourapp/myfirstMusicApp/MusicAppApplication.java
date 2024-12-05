@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import lombok.Data;
 @Data
 public class MusicAppApplication extends Application {
+	 private static MusicAppApplication instance;
 
     private Stage primaryStage;
     private Scene playerScene;
@@ -27,6 +28,14 @@ public class MusicAppApplication extends Application {
     private PlayerController playerController;  // Lưu playerController
     private ObservableList<Song> playlist = FXCollections.observableArrayList(); // Danh sách bài hát
     private int currentSongIndex = 0; // Chỉ số bài hát hiện tại
+    public MusicAppApplication() {
+        instance = this; // Lưu instance hiện tại khi khởi tạo
+    }
+
+    public static MusicAppApplication getInstance() {
+        return instance; // Trả về instance hiện tại
+    }
+
     @Override
     public void init() {
         // Gán danh sách phát từ repository

@@ -1,0 +1,33 @@
+/* Lớp cơ bản cho các nút với hiệu ứng hover */
+.Library-button {
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: contain;
+    -fx-background-position: center;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-pref-width: 60px;
+    -fx-pref-height: 60px;
+    -fx-text-fill: transparent;
+    -fx-alignment: center;
+}
+
+.Library-button:hover {
+    -fx-background-size: 110%; /* Phóng to ảnh */
+    -fx-opacity: 0.8; /* Giảm độ trong suốt khi hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 8, 0.5, 0, 2); /* Hiệu ứng shadow đậm hơn */
+    -fx-cursor: hand; /* Thay đổi con trỏ */
+}
+
+/* Các nút với hình ảnh khác nhau */
+.button1 {
+    -fx-background-image: url("/pic/MusicLibrary.png");
+}
+
+.button2 {
+    -fx-background-image: url("/pic/Player.png");
+}
+
+.button3 {
+    -fx-background-image: url("/pic/History.png");
+}

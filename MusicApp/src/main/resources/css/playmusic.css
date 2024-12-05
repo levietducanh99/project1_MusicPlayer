@@ -24,7 +24,7 @@
 }
 .pause-button {
     -fx-background-color: transparent; /* Loại bỏ màu nền */
-    -fx-background-image: url("/pic/pause.png"); /* Đường dẫn tới ảnh */
+    -fx-background-image: url("/pic/PauseButton.png"); /* Đường dẫn tới ảnh */
     -fx-background-repeat: no-repeat; /* Không lặp lại ảnh */
     -fx-background-size: cover; /* Phủ kín nút */
     -fx-background-position: center; /* Căn giữa hình ảnh */
@@ -38,7 +38,7 @@
 /* Lớp CSS khi nút Pause được nhấn (tạm dừng) */
 .pause-button.paused {
     -fx-background-color: transparent;
-    -fx-background-image: url("/pic/play.png"); /* Ảnh khi tạm dừng */
+    -fx-background-image: url("/pic/PlayButton.png"); /* Ảnh khi tạm dừng */
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
     -fx-background-position: center;
@@ -48,5 +48,31 @@
     -fx-pref-height: 60px;
    /*   -fx-text-fill: transparent; */
 
+}
+.forward-button {
+    -fx-background-color: transparent; /* Loại bỏ màu nền */
+    -fx-background-image: url("/pic/ForwardButton.png"); /* Đường dẫn tới ảnh */
+    -fx-background-repeat: no-repeat; /* Không lặp lại ảnh */
+    -fx-background-size: cover; /* Phủ kín nút */
+    -fx-background-position: center; /* Căn giữa hình ảnh */
+    -fx-border-color: transparent; /* Loại bỏ viền nếu cần */
+    -fx-padding: 0; /* Loại bỏ khoảng cách padding */
+    -fx-pref-width: 60px; /* Đặt chiều rộng phù hợp với ảnh */
+    -fx-pref-height: 60px; /* Đặt chiều cao phù hợp với ảnh */
+   /*   -fx-text-fill: transparent; */
+ 
+}
+.stop-button {
+    -fx-background-color: transparent; /* Loại bỏ màu nền */
+    -fx-background-image: url("/pic/StopButton.png"); /* Đường dẫn tới ảnh */
+    -fx-background-repeat: no-repeat; /* Không lặp lại ảnh */
+    -fx-background-size: cover; /* Phủ kín nút */
+    -fx-background-position: center; /* Căn giữa hình ảnh */
+    -fx-border-color: transparent; /* Loại bỏ viền nếu cần */
+    -fx-padding: 0; /* Loại bỏ khoảng cách padding */
+    -fx-pref-width: 60px; /* Đặt chiều rộng phù hợp với ảnh */
+    -fx-pref-height: 60px; /* Đặt chiều cao phù hợp với ảnh */
+   /*   -fx-text-fill: transparent; */
+ 
 }
 
