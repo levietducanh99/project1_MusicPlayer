@@ -44,7 +44,7 @@
                </image>
             </ImageView>
          </graphic></Button>
-      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="41.0" styleClass="Library-button" text="Go to History">
+      <Button fx:id="goToCustomButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleGoToCustomButton" prefHeight="30.0" prefWidth="41.0" styleClass="Library-button" text="Go to History">
          <stylesheets>
             <URL value="@../css/abc.css" />
             <URL value="@../css/IconStyling.css" />

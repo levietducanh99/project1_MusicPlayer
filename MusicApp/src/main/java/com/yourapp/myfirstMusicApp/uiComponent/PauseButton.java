@@ -9,7 +9,7 @@ import com.yourapp.myfirstMusicApp.AudioPlayer;
 
 public class PauseButton extends Button {
     
-    private AudioPlayer audioPlayer;
+  
     private boolean isPaused = false;
 
     // Constructor mặc định (bắt buộc để FXML sử dụng)
@@ -21,7 +21,7 @@ public class PauseButton extends Button {
     // Constructor hiện tại với tham số (nếu bạn muốn dùng nó trong code Java)
     public PauseButton(AudioPlayer audioPlayer) {
         super();
-        this.audioPlayer = audioPlayer;
+       
         initializeButton();
     }
 
@@ -31,12 +31,11 @@ public class PauseButton extends Button {
     }
 
     // Liên kết AudioPlayer với PauseButton
-    public void bindAudioPlayer(AudioPlayer audioPlayer) {
-        this.audioPlayer = audioPlayer;
-    }
+
 
     // Xử lý khi nhấn nút Pause
     private void handlePause(MouseEvent event) {
+    	 AudioPlayer audioPlayer = AudioPlayer.getInstance(); // Lấy Singleton
         if (audioPlayer != null) {
         	audioPlayer.pause(); // Tạm dừng nhạc hoặc tiếp tục phát
             if (isPaused) {

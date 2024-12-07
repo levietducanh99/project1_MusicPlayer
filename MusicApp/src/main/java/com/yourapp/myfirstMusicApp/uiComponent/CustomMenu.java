@@ -19,6 +19,10 @@ public class CustomMenu extends VBox {
     private Button goToLibraryButton;
 
     @FXML
+    private Button goToCustomButton;
+
+
+    @FXML
     private Button goToPlayerButton;
     VBox customMenu ;
     // Constructor mặc định
@@ -51,6 +55,10 @@ public class CustomMenu extends VBox {
 
     // Xử lý sự kiện khi nhấn vào nút "Go to Player"
     @FXML
+    public void handleGoToCustomButton(ActionEvent event) {
+        // Chuyển màn hình đến Player
+        app.showCustomPage(); // Gọi phương thức chuyển đến Player
+    }
     public void handleGoToPlayerButton(ActionEvent event) {
         // Chuyển màn hình đến Player
         app.showPlayerPage(); // Gọi phương thức chuyển đến Player

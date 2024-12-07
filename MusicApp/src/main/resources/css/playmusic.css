@@ -76,3 +76,33 @@
  
 }
 
+/* Tùy chỉnh thanh trượt (track) */
+.slider .track {
+    -fx-background-color: #dddddd; /* Màu nền của track */
+    -fx-background-radius: 5px; /* Bo góc track */
+    -fx-padding: 0.5em; /* Khoảng cách nội bộ */
+    -fx-pref-height: 6px; /* Chiều cao của track */
+}
+
+/* Tùy chỉnh nút kéo (thumb) */
+.slider .thumb {
+    -fx-background-color: #0078d7; /* Màu của thumb */
+    -fx-background-radius: 50%; /* Bo tròn thumb */
+    -fx-pref-width: 15px; /* Chiều rộng của thumb */
+    -fx-pref-height: 15px; /* Chiều cao của thumb */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 4, 0.5, 0, 0); /* Hiệu ứng bóng */
+}
+/* Hover effect for thumb */
+.slider .thumb:hover {
+    -fx-background-color: #005bbb; /* Màu khi hover */
+    -fx-cursor: hand; /* Thay đổi con trỏ */
+}
+
+/* Active state for thumb (khi kéo) */
+.slider .thumb:pressed {
+    -fx-background-color: #003f88; /* Màu khi nhấn */
+    -fx-scale-x: 1.2; /* Phóng to thumb theo trục X */
+    -fx-scale-y: 1.2; /* Phóng to thumb theo trục Y */
+}
+
+

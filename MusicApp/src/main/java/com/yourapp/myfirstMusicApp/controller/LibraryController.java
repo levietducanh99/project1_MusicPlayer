@@ -8,6 +8,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.jaudiotagger.audio.AudioFile;
@@ -16,6 +18,8 @@ import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 
 import com.yourapp.myfirstMusicApp.MusicAppApplication;
+import com.yourapp.myfirstMusicApp.loader.CustomMenuLoader;
+import com.yourapp.myfirstMusicApp.loader.SmallPlayerLoader;
 import com.yourapp.myfirstMusicApp.model.Song;
 import com.yourapp.myfirstMusicApp.repository.SongRepository;
 
@@ -28,7 +32,11 @@ public class LibraryController {
     private MusicAppApplication app;
     private List<Song> songLibrary;
     private SongRepository songRepository;
-
+    @FXML
+    private VBox customMenuContainer; // Container hiện tại của bạn
+    @FXML
+    private HBox smallPlayerContainer; // Container hiện tại của bạn
+   
     // Constructor to inject SongRepository
     public LibraryController() {
         this.songRepository = new SongRepository(); // Assuming SongRepository is properly initialized
@@ -125,9 +133,14 @@ public class LibraryController {
     }
     @FXML
     public void initialize() {
+    	app = MusicAppApplication.getInstance();
         // Gọi phương thức showAllSongs() để hiển thị danh sách bài hát từ cơ sở dữ liệu
         showAllSongs();
         songListView.setOnMouseClicked(this::handleSongDoubleClick);
+        customMenuContainer.getChildren().setAll(CustomMenuLoader.getLibraryMenu(MusicAppApplication.getInstance()));
+     //   customMenuContainer.getChildren().setAll(new CustomMenu(MusicAppApplication.getInstance()));
+        smallPlayerContainer.getChildren().setAll(SmallPlayerLoader.getPlayerSmallPlayer(MusicAppApplication.getInstance()));
+
     }
     public void handleSongDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {

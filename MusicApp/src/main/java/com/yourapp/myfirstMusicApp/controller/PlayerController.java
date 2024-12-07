@@ -7,8 +7,10 @@ import java.util.List;
 
 import com.yourapp.myfirstMusicApp.AudioPlayer;
 import com.yourapp.myfirstMusicApp.MusicAppApplication;
+import com.yourapp.myfirstMusicApp.loader.CustomMenuLoader;
 import com.yourapp.myfirstMusicApp.model.History;
 import com.yourapp.myfirstMusicApp.model.Song;
+import com.yourapp.myfirstMusicApp.service.PlayerService;
 import com.yourapp.myfirstMusicApp.uiComponent.CustomMenu;
 import com.yourapp.myfirstMusicApp.uiComponent.NextButton;
 import com.yourapp.myfirstMusicApp.uiComponent.PauseButton;
@@ -34,9 +36,21 @@ import javafx.stage.Stage;
 import lombok.Data;
 @Data
 public class PlayerController {
+	// Biến thành singleton
+	public static PlayerController instance;
 
+    public PlayerController() {
+        // Khởi tạo các thành phần cần thiết
+    }
+
+    public static synchronized PlayerController getInstance() {
+        if (instance == null) {
+            instance = new PlayerController();
+        }
+        return instance;
+    }
     private MusicAppApplication app;
-    private AudioPlayer audioPlayer;  // Không khởi tạo sẵn AudioPlayer
+    private AudioPlayer audioPlayer = AudioPlayer.getInstance(); // Get the Singleton instance of AudioPlayer
     private boolean isPlaying = false;  // Trạng thái phát nhạc
     private boolean isPaused = false;   // Trạng thái tạm dừng
     
@@ -46,7 +60,7 @@ public class PlayerController {
 
     private Song currentSong;  // Lưu trữ bài hát hiện tại đang phát
     @FXML
-    private VBox customMenuContainer; // Container hiện tại của bạn
+    private VBox customMenuContainer1; // Container hiện tại của bạn
    
     @FXML
     private NextButton nextButton;  // Liên kết với nút Next trong FXML
@@ -57,16 +71,20 @@ public class PlayerController {
   
     @FXML
     private SeekSlider seekSlider; // Sử dụng SeekSlider
-    
+    private PlayerService playerService;
     // Cung cấp phương thức để controller nhận tham chiếu của MusicAppApplication
     public void setApp(MusicAppApplication app) {
         this.app = app;
     }
-
+ // Trong PlayerController
+    public AudioPlayer getAudioPlayer() {
+        return audioPlayer;
+    }
     public void initialize() throws IOException {
     
     	app = MusicAppApplication.getInstance();
-    	  System.out.println("app is:  " + app);
+        
+   // 	  System.out.println("app is:  " + app);
     	// Khởi tạo SeekSlider nếu cần
         if (seekSlider == null) {
             throw new IllegalStateException("SeekSlider is not initialized in FXML.");
@@ -83,15 +101,15 @@ public class PlayerController {
         
         
      // Khởi tạo CustomMenu và thêm vào mainContainer
-       FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CustomMenu.fxml"));
-       VBox customMenu = loader.load();
-       CustomMenu controller = loader.getController();
-       controller.setApp(app); // Gán app trước
-       System.out.println("app in this is:  " + app);
+ //      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CustomMenu.fxml"));
+ //      VBox customMenu = loader.load();
+//       CustomMenu controller = loader.getController();
+   //    controller.setApp(app); // Gán app trước
+     //  System.out.println("app in this is:  " + app);
        
        
         // Chèn CustomMenu vào Pane hiện tại
-        customMenuContainer.getChildren().setAll(customMenu);
+        customMenuContainer1.getChildren().setAll(CustomMenuLoader.getPlayerMenu(MusicAppApplication.getInstance()));
    
              }
     
@@ -205,7 +223,7 @@ public class PlayerController {
                 }
                 // Khởi tạo AudioPlayer và phát nhạc từ file
                 
-                audioPlayer = new AudioPlayer();
+                audioPlayer = AudioPlayer.getInstance();  // Use Singleton instance
                 setupEndOfSongListener();
                 audioPlayer.play(filePath); // Dùng phương thức play từ AudioPlayer
                 
@@ -216,11 +234,13 @@ public class PlayerController {
                 } else {
                     albumArtView.setImage(null); // Xóa ảnh nếu không tìm thấy
                 }
-                
+                seekSlider.reset(); // Reset slider trước
+               
+                seekSlider.activate(); // Kích hoạt slider sau khi bài hát bắt đầu
              // Liên kết SeekSlider với AudioPlayer
-                seekSlider.bindAudioPlayer(audioPlayer);
+      //          seekSlider.bindAudioPlayer(audioPlayer);
              // Liên kết PauseButton với AudioPlayer
-                pauseButton.bindAudioPlayer(audioPlayer);
+       //         pauseButton.bindAudioPlayer(audioPlayer);
                 isPlaying = true; // Đặt trạng thái phát nhạc là true
                 System.out.println("Đang phát bài hát: " + filePath);
              // Lưu lịch sử nghe nhạc vào cơ sở dữ liệu

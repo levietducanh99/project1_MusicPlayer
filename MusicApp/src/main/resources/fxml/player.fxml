@@ -63,7 +63,12 @@
             </graphic></NextButton>
       
                 <!-- SeekSlider -->
-          <SeekSlider fx:id="seekSlider" prefHeight="50.0" prefWidth="669.0" />
+          <SeekSlider fx:id="seekSlider" prefHeight="50.0" prefWidth="669.0" stylesheets="@../css/playmusic.css">
+            <styleClass>
+               <String fx:value="slider" />
+               <String fx:value="thumb" />
+               <String fx:value="track" />
+            </styleClass></SeekSlider>
       
           <!-- MenuButton chọn tốc độ -->
           <MenuButton mnemonicParsing="false" prefHeight="46.0" prefWidth="67.0" text="Speed">
@@ -99,7 +104,7 @@
          </Pane>
       </center>
       <left>
-         <VBox fx:id="customMenuContainer" alignment="CENTER" prefHeight="603.0" prefWidth="36.0" BorderPane.alignment="CENTER" />
+         <VBox fx:id="customMenuContainer1" alignment="CENTER" prefHeight="603.0" prefWidth="36.0" BorderPane.alignment="CENTER" />
       </left>
    </BorderPane>
    

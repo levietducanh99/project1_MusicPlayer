@@ -4,6 +4,7 @@ import com.yourapp.myfirstMusicApp.controller.LibraryController;
 import com.yourapp.myfirstMusicApp.controller.PlayerController;
 import com.yourapp.myfirstMusicApp.model.Song;
 import com.yourapp.myfirstMusicApp.repository.SongRepository;
+import com.yourapp.myfirstMusicApp.uiComponent.SmallPlayer;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -13,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -22,10 +25,12 @@ public class MusicAppApplication extends Application {
 	 private static MusicAppApplication instance;
 
     private Stage primaryStage;
+    private Scene smallScene;
     private Scene playerScene;
     private Scene libraryScene;
-    private Scene settingsScene;
+    private Scene customScene;
     private PlayerController playerController;  // Lưu playerController
+    private SmallPlayer smallPlayer;
     private ObservableList<Song> playlist = FXCollections.observableArrayList(); // Danh sách bài hát
     private int currentSongIndex = 0; // Chỉ số bài hát hiện tại
     public MusicAppApplication() {
@@ -50,12 +55,18 @@ public class MusicAppApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
 
-        // Tải trang FXML cho Home
+        
+     
+        
+        
+        // Tải trang FXML cho Player
         FXMLLoader homeLoader = new FXMLLoader(getClass().getResource("/fxml/player.fxml"));
         AnchorPane playerPage = homeLoader.load();
         playerScene = new Scene(playerPage);
         // Lấy controller PlayerController
         playerController = homeLoader.getController();
+        // Lấy instance của PlayerController (không cần tạo lại controller)
+   //     playerController = PlayerController.getInstance(); // Lấy instance duy nhất
         playerController.setApp(this);
 
         // Truyền tham chiếu primaryStage vào controller HomeController
@@ -64,15 +75,27 @@ public class MusicAppApplication extends Application {
 
         // Tải trang FXML cho Library
         FXMLLoader libraryLoader = new FXMLLoader(getClass().getResource("/fxml/library.fxml"));
-        VBox libraryPage = libraryLoader.load();
+        BorderPane libraryPage = libraryLoader.load();
         libraryScene = new Scene(libraryPage);
 
         // Truyền tham chiếu primaryStage vào controller LibraryController
         LibraryController libraryController = libraryLoader.getController();
         libraryController.setApp(this);
-
         
+        // cho smallplayer
+        FXMLLoader smallLoader = new FXMLLoader(getClass().getResource("/fxml/smallPlayer.fxml"));
+        HBox smallPage = smallLoader.load();
+        smallScene = new Scene(smallPage);
 
+        // Truyền tham chiếu primaryStage vào controller LibraryController
+        SmallPlayer smallPlayer = smallLoader.getController();
+       smallPlayer.setApp(this);
+        
+        
+        
+     
+     
+    
         // Đặt Scene mặc định là Home
         primaryStage.setTitle("Music App");
         primaryStage.setScene(libraryScene);
@@ -94,27 +117,25 @@ public class MusicAppApplication extends Application {
     public void showPlayerPage() {
         primaryStage.setScene(playerScene);
     }
+    public void showCustomPage() {
+        primaryStage.setScene(smallScene);
+    }
 
     // Chuyển đến trang Library
     public void showLibraryPage() {
         primaryStage.setScene(libraryScene);
     }
 
-    // Chuyển đến trang Settings
-    public void showSettingsPage() {
-        primaryStage.setScene(settingsScene);
-    }
+
     
     // Kiểm tra nếu có bài hát đang phát
     public boolean isSongPlaying() {
-        return playerController != null && playerController.isPlaying();
+        return AudioPlayer.getInstance().isPlaying();
     }
 
     // Dừng bài hát đang phát
     public void stopCurrentSong() {
-        if (playerController != null) {
-            playerController.handleStop();
-        }
+    	 AudioPlayer.getInstance().stop();
     }
 
     public void showPlayerAndPlay(Song song) {

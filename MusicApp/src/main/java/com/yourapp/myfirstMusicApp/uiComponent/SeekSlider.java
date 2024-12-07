@@ -12,6 +12,8 @@ public class SeekSlider extends Slider {
     public SeekSlider() {
         super(); // Gọi constructor của Slider
         initializeSlider();
+     // Lắng nghe khi AudioPlayer có MediaPlayer
+        AudioPlayer.getInstance().addMediaPlayerListener(mediaPlayer -> bindAudioPlayer(AudioPlayer.getInstance()));
     }
 
     // Constructor hiện tại với tham số (nếu bạn muốn dùng nó trong code Java)
@@ -40,6 +42,7 @@ public class SeekSlider extends Slider {
 
     // Xử lý tua khi thả chuột
     private void handleSeek() {
+    	AudioPlayer audioPlayer = AudioPlayer.getInstance(); // Lấy Singleton
         if (audioPlayer != null) {
             double seekTime = this.getValue() / 100 * audioPlayer.getTotalDuration();
             audioPlayer.seek(seekTime);
@@ -48,6 +51,7 @@ public class SeekSlider extends Slider {
 
     // Xử lý tua khi click
     private void handleSeekByClick(MouseEvent event) {
+    	 AudioPlayer audioPlayer = AudioPlayer.getInstance(); // Lấy Singleton
         if (audioPlayer != null) {
             double clickPosition = event.getX() / this.getWidth();
             double seekTime = clickPosition * audioPlayer.getTotalDuration();
@@ -57,6 +61,7 @@ public class SeekSlider extends Slider {
 
     // Khởi tạo slider và các listener
     private void initializeSlider() {
+    	
         this.setOnMouseReleased(event -> handleSeek());
         this.setOnMouseClicked(this::handleSeekByClick);
         this.valueChangingProperty().addListener((observable, wasChanging, isChanging) -> {
@@ -64,5 +69,24 @@ public class SeekSlider extends Slider {
                 handleSeek();
             }
         });
+        
+    }
+    // Phương thức reset lại trạng thái của SeekSlider
+    public void reset() {
+        this.setValue(0); // Đặt giá trị slider về 0
+        
+
+    }
+ // Phương thức kích hoạt lại slider khi bài hát mới bắt đầu
+    public void activate() {
+        this.setDisable(false); // Kích hoạt slider
+        if (audioPlayer != null) {
+            audioPlayer.setOnProgressListener(currentTime -> {
+                if (!this.isValueChanging()) {
+                    double progress = currentTime / audioPlayer.getTotalDuration();
+                    this.setValue(progress * 100);
+                }
+            });
+        }
     }
 }

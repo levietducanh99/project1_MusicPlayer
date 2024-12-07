@@ -5,9 +5,13 @@ import java.io.ByteArrayInputStream;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import lombok.Data;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.jaudiotagger.audio.AudioFile;
@@ -18,6 +22,41 @@ import org.jaudiotagger.tag.Tag;
 public class AudioPlayer {
     private MediaPlayer mediaPlayer;
     private String currentFilePath;
+    private final DoubleProperty currentProgress = new SimpleDoubleProperty(0);
+  //  private final List<Runnable> readyListeners = new ArrayList<>();
+    private final List<Consumer<MediaPlayer>> mediaPlayerListeners = new ArrayList<>();
+ // Singleton instance
+    private static AudioPlayer instance;
+ // Public method to provide access to the instance
+    public static synchronized AudioPlayer getInstance() {
+        if (instance == null) {
+            instance = new AudioPlayer();
+           
+        }
+        return instance;
+    }
+    
+    // Thêm listener lắng nghe khi MediaPlayer sẵn sàng
+    public void addMediaPlayerListener(Consumer<MediaPlayer> listener) {
+        if (mediaPlayer != null) {
+            listener.accept(mediaPlayer); // Nếu đã có mediaPlayer, gọi ngay lập tức
+        } else {
+            mediaPlayerListeners.add(listener); // Đợi MediaPlayer sẵn sàng
+        }
+    }
+
+    // Thông báo tất cả các listener
+    private void notifyMediaPlayerListeners() {
+        for (Consumer<MediaPlayer> listener : mediaPlayerListeners) {
+            listener.accept(mediaPlayer);
+        }
+        mediaPlayerListeners.clear(); // Xóa listener sau khi thông báo
+    }
+    
+    
+    
+    // end of setup
+    
     // Phương thức phát nhạc
     public void play(String filePath) {
         stop(); // Dừng bài hát hiện tại trước khi phát bài mới
@@ -25,13 +64,21 @@ public class AudioPlayer {
         // Tạo MediaPlayer từ file
         Media media = new Media(new File(filePath).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
+        notifyMediaPlayerListeners(); // Thông báo MediaPlayer đã sẵn sàng
         mediaPlayer.play(); // Bắt đầu phát
+        setOnProgressListener();
     }
     // Phương thức thiết lập hành động khi bài hát kết thúc
     public void setOnEndOfMedia(Runnable action) {
         if (mediaPlayer != null) {
             mediaPlayer.setOnEndOfMedia(action);
         }
+    }
+    
+    
+ // Kiểm tra xem bài hát có đang phát hay không
+    public boolean isPlaying() {
+        return mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING;
     }
 
 	    // Phương thức tạm dừng hoặc tiếp tục phát
@@ -71,6 +118,18 @@ public class AudioPlayer {
         mediaPlayer.currentTimeProperty().addListener((obs, oldTime, newTime) -> {
             listener.accept(newTime.toSeconds());
         });
+    }
+    public DoubleProperty currentProgressProperty() {
+        return currentProgress;
+    }
+
+    public void setOnProgressListener() {
+        if (mediaPlayer != null) {
+            mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
+                double progress = newValue.toSeconds() / getTotalDuration();
+                currentProgress.set(progress*100); // Thông báo thay đổi
+            });
+        }
     }
     public double getCurrentPosition() {
         return mediaPlayer.getCurrentTime().toSeconds();

@@ -2,6 +2,8 @@ package com.yourapp.myfirstMusicApp.uiComponent;
 
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+
+import com.yourapp.myfirstMusicApp.AudioPlayer;
 import com.yourapp.myfirstMusicApp.controller.PlayerController;
 
 public class NextButton extends Button {
@@ -28,6 +30,7 @@ public class NextButton extends Button {
 
     // Xử lý khi nhấn nút Next
     private void handleNext(MouseEvent event) {
+    	  AudioPlayer.getInstance().stop(); // Dừng bài hát hiện tại
         if (playerController != null) {
             playerController.playNextSong();  // Gọi phương thức playNextSong từ PlayerController
         }
