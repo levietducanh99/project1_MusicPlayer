@@ -2,29 +2,62 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.myfirstMusicApp.controller.LibraryController">
-    <!-- Thêm VBox vào khu vực Center của BorderPane -->
-    <center>
-        <VBox alignment="CENTER" spacing="10">
-            <Label text="Library - Add Song" />
-
-            <!-- Thêm ListView để hiển thị danh sách bài hát -->
-            <ListView fx:id="songListView" prefHeight="200" prefWidth="300" />
-
-            <!-- Thêm các nút điều hướng và chức năng -->
-            <Button onAction="#handleAddSong" text="Thêm Bài Hát" />
-            <Button onAction="#handleGoBackToHome" text="Go Back to Home" />
-        </VBox>
-    </center>
    <left>
       <VBox fx:id="customMenuContainer" alignment="CENTER" prefHeight="447.0" prefWidth="63.0" BorderPane.alignment="CENTER" />
    </left>
    <bottom>
-      <HBox fx:id="smallPlayerContainer" prefHeight="46.0" prefWidth="1280.0" BorderPane.alignment="CENTER" />
+      <HBox fx:id="smallPlayerContainer" prefHeight="46.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+         <children>
+   
+               <!-- Thêm các nút điều hướng và chức năng -->
+               <Button onAction="#handleAddSong" text="Thêm Bài Hát" />
+               <Button onAction="#handleGoBackToHome" text="Go Back to Home" />
+         </children></HBox>
    </bottom>
+   <center>
+      <AnchorPane prefHeight="600.0" prefWidth="1125.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane layoutX="131.0" layoutY="140.0" prefHeight="467.0" prefWidth="847.0">
+               <content>
+                  <VBox fx:id="songContainer" prefHeight="504.0" prefWidth="834.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="834.0">
+                           <children>
+                              <ImageView fx:id="songImg6" fitHeight="52.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true" />
+                              <Label fx:id="songName6" prefHeight="28.0" prefWidth="278.0" text="Waybackhome" />
+                              <Label fx:id="songArtist6" prefHeight="22.0" prefWidth="164.0" text="Bray" />
+                              <Label fx:id="songDuration6" prefHeight="18.0" prefWidth="41.0" text="2:30" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="834.0">
+                           <children>
+                              <ImageView fx:id="songImg11" fitHeight="52.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true" />
+                              <Label fx:id="songName11" prefHeight="28.0" prefWidth="278.0" text="Waybackhome" />
+                              <Label fx:id="songArtist11" prefHeight="22.0" prefWidth="164.0" text="Bray" />
+                              <Label fx:id="songDuration11" prefHeight="18.0" prefWidth="41.0" text="2:30" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="834.0">
+                           <children>
+                              <ImageView fx:id="songImg12" fitHeight="52.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true" />
+                              <Label fx:id="songName12" prefHeight="28.0" prefWidth="278.0" text="Waybackhome" />
+                              <Label fx:id="songArtist12" prefHeight="22.0" prefWidth="164.0" text="Bray" />
+                              <Label fx:id="songDuration12" prefHeight="18.0" prefWidth="41.0" text="2:30" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+   </center>
 </BorderPane>

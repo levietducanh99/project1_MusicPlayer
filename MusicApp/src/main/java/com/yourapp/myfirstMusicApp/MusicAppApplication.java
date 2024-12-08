@@ -70,8 +70,8 @@ public class MusicAppApplication extends Application {
         playerController.setApp(this);
 
         // Truyền tham chiếu primaryStage vào controller HomeController
-        PlayerController playerController = homeLoader.getController();
-        playerController.setApp(this);
+ 
+      
 
         // Tải trang FXML cho Library
         FXMLLoader libraryLoader = new FXMLLoader(getClass().getResource("/fxml/library.fxml"));

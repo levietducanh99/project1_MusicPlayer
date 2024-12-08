@@ -7,6 +7,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import lombok.Data;
 
 import java.io.File;
@@ -22,9 +24,13 @@ import org.jaudiotagger.tag.Tag;
 public class AudioPlayer {
     private MediaPlayer mediaPlayer;
     private String currentFilePath;
+    private double volume = 0.5; // Giá trị âm lượng mặc định (50%)
     private final DoubleProperty currentProgress = new SimpleDoubleProperty(0);
+    
+    private final BooleanProperty isPlaying = new SimpleBooleanProperty(false);
   //  private final List<Runnable> readyListeners = new ArrayList<>();
     private final List<Consumer<MediaPlayer>> mediaPlayerListeners = new ArrayList<>();
+    private final List<Runnable> songChangeListeners = new ArrayList<>();
  // Singleton instance
     private static AudioPlayer instance;
  // Public method to provide access to the instance
@@ -56,7 +62,11 @@ public class AudioPlayer {
     
     
     // end of setup
-    
+    public BooleanProperty isPlayingProperty() {
+        return isPlaying;
+    }
+
+   
     // Phương thức phát nhạc
     public void play(String filePath) {
         stop(); // Dừng bài hát hiện tại trước khi phát bài mới
@@ -66,11 +76,14 @@ public class AudioPlayer {
         mediaPlayer = new MediaPlayer(media);
         notifyMediaPlayerListeners(); // Thông báo MediaPlayer đã sẵn sàng
         mediaPlayer.play(); // Bắt đầu phát
+        notifySongChange(); // Thông báo cho tất cả listener
+        isPlaying.set(true);
         setOnProgressListener();
     }
     // Phương thức thiết lập hành động khi bài hát kết thúc
     public void setOnEndOfMedia(Runnable action) {
         if (mediaPlayer != null) {
+        	
             mediaPlayer.setOnEndOfMedia(action);
         }
     }
@@ -87,8 +100,10 @@ public class AudioPlayer {
 	            MediaPlayer.Status status = mediaPlayer.getStatus();
 	            if (status == MediaPlayer.Status.PLAYING) {
 	                mediaPlayer.pause(); // Tạm dừng
+	                isPlaying.set(false);
 	            } else if (status == MediaPlayer.Status.PAUSED) {
 	                mediaPlayer.play(); // Tiếp tục phát
+	                isPlaying.set(true);
 	            }
 	        }
 	    }
@@ -97,6 +112,7 @@ public class AudioPlayer {
     public void stop() {
         if (mediaPlayer != null) {
             mediaPlayer.stop(); // Dừng phát
+            isPlaying.set(false);
             mediaPlayer = null; // Giải phóng MediaPlayer
         }
     }
@@ -153,6 +169,32 @@ public class AudioPlayer {
             e.printStackTrace();
         }
         return null; // Không tìm thấy ảnh bìa
+    }
+    // Lấy âm lượng hiện tại
+    public double getVolume() {
+        return volume;
+    }
+
+    // Thiết lập âm lượng
+    public void setVolume(double volume) {
+        if (volume >= 0 && volume <= 1) {
+            this.volume = volume;
+            // Cập nhật âm lượng trong MediaPlayer của bạn
+            if (mediaPlayer != null) {
+                mediaPlayer.setVolume(volume);
+            }
+        }
+    } 
+    // Phương thức để thêm listener
+    public void addSongChangeListener(Runnable listener) {
+        songChangeListeners.add(listener);
+    }
+
+    // Gọi phương thức này khi phát bài hát mới
+    private void notifySongChange() {
+        for (Runnable listener : songChangeListeners) {
+            listener.run();
+        }
     }
     
 }

@@ -14,6 +14,11 @@ public class SeekSlider extends Slider {
         initializeSlider();
      // Lắng nghe khi AudioPlayer có MediaPlayer
         AudioPlayer.getInstance().addMediaPlayerListener(mediaPlayer -> bindAudioPlayer(AudioPlayer.getInstance()));
+     // Thêm listener để reset và kích hoạt slider khi phát bài hát mới
+        AudioPlayer.getInstance().addSongChangeListener(() -> {
+            reset();
+            activate();
+        });
     }
 
     // Constructor hiện tại với tham số (nếu bạn muốn dùng nó trong code Java)

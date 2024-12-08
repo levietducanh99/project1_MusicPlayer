@@ -28,6 +28,14 @@ public class PauseButton extends Button {
     // Thiết lập các hành động khi nhấn nút
     private void initializeButton() {
         this.setOnMouseClicked(this::handlePause);
+        // Lắng nghe trạng thái isPlaying để đồng bộ giao diện
+        AudioPlayer.getInstance().isPlayingProperty().addListener((obs, wasPlaying, isPlaying) -> {
+            if (isPlaying) {
+                this.getStyleClass().remove("paused");
+            } else {
+                this.getStyleClass().add("paused");
+            }
+        });
     }
 
     // Liên kết AudioPlayer với PauseButton
@@ -38,16 +46,16 @@ public class PauseButton extends Button {
     	 AudioPlayer audioPlayer = AudioPlayer.getInstance(); // Lấy Singleton
         if (audioPlayer != null) {
         	audioPlayer.pause(); // Tạm dừng nhạc hoặc tiếp tục phát
-            if (isPaused) {
-            	this.getStyleClass().remove("paused");
-                
-            } else {
-            	
-            	this.getStyleClass().add("paused");
-                
-            }
-            isPaused = !isPaused; // Đảo ngược trạng thái
-        }
+//            if (isPaused) {
+//            	this.getStyleClass().remove("paused");
+//                
+//            } else {
+//            	
+//            	this.getStyleClass().add("paused");
+//                
+//            }
+//            isPaused = !isPaused; // Đảo ngược trạng thái
+       }
     }
 
     // Trả về trạng thái paused của nút

@@ -16,6 +16,7 @@ import com.yourapp.myfirstMusicApp.uiComponent.NextButton;
 import com.yourapp.myfirstMusicApp.uiComponent.PauseButton;
 
 import com.yourapp.myfirstMusicApp.uiComponent.SeekSlider;
+import com.yourapp.myfirstMusicApp.uiComponent.VolumeSlider;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -54,7 +55,7 @@ public class PlayerController {
     private boolean isPlaying = false;  // Trạng thái phát nhạc
     private boolean isPaused = false;   // Trạng thái tạm dừng
     
-    private ObservableList<Song> currentPlaylist = FXCollections.observableArrayList();
+    private List<Song> currentPlaylist = new ArrayList<>(); // Đảm bảo currentPlaylist không bị null
 
     private int currentSongIndex = 0;
 
@@ -71,6 +72,8 @@ public class PlayerController {
   
     @FXML
     private SeekSlider seekSlider; // Sử dụng SeekSlider
+    @FXML
+    private VolumeSlider volumeSlider;
     private PlayerService playerService;
     // Cung cấp phương thức để controller nhận tham chiếu của MusicAppApplication
     public void setApp(MusicAppApplication app) {
@@ -218,9 +221,9 @@ public class PlayerController {
         if (filePath != null && !filePath.isEmpty()) {
             try {
             	// Nếu có bài hát đang phát, reset trạng thái PauseButton
-                if (pauseButton != null) {
-                    pauseButton.resetPauseButton();  // Đặt lại trạng thái nút pause
-                }
+       //         if (pauseButton != null) {
+     //               pauseButton.resetPauseButton();  // Đặt lại trạng thái nút pause
+           //     }
                 // Khởi tạo AudioPlayer và phát nhạc từ file
                 
                 audioPlayer = AudioPlayer.getInstance();  // Use Singleton instance
@@ -232,11 +235,11 @@ public class PlayerController {
                 if (albumArt != null) {
                     albumArtView.setImage(albumArt); // albumArtView là một ImageView
                 } else {
-                    albumArtView.setImage(null); // Xóa ảnh nếu không tìm thấy
+                    albumArtView.setImage(new Image(getClass().getResourceAsStream("/pic/gau.jpg"))); // Xóa ảnh nếu không tìm thấy
                 }
-                seekSlider.reset(); // Reset slider trước
+         //       seekSlider.reset(); // Reset slider trước
                
-                seekSlider.activate(); // Kích hoạt slider sau khi bài hát bắt đầu
+          //      seekSlider.activate(); // Kích hoạt slider sau khi bài hát bắt đầu
              // Liên kết SeekSlider với AudioPlayer
       //          seekSlider.bindAudioPlayer(audioPlayer);
              // Liên kết PauseButton với AudioPlayer
@@ -269,13 +272,15 @@ public class PlayerController {
 
     private void setupEndOfSongListener() {
         // Giả sử AudioPlayer có một listener để phát hiện bài hát kết thúc
+    	
         audioPlayer.setOnEndOfMedia(() -> {
             playNextSong();
+            
         });
     }
-    public void playAllSongs(ObservableList<Song> songLibrary, Song selectedSong) {
-        System.out.println("Danh sách bài hát hiện tại (trước khi cập nhật): " + currentPlaylist);
-        System.out.println("Danh sách bài hát mới: " + songLibrary);
+    public void playAllSongs(List<Song> songLibrary, Song selectedSong) {
+     //   System.out.println("Danh sách bài hát hiện tại (trước khi cập nhật): " + currentPlaylist);
+      //  System.out.println("Danh sách bài hát mới: " + songLibrary);
 
         // Cập nhật danh sách bài hát
         this.currentPlaylist.clear();
