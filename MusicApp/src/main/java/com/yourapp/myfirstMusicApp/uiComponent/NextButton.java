@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
 import com.yourapp.myfirstMusicApp.AudioPlayer;
+import com.yourapp.myfirstMusicApp.MusicAppApplication;
 import com.yourapp.myfirstMusicApp.controller.PlayerController;
 
 public class NextButton extends Button {
@@ -25,7 +26,9 @@ public class NextButton extends Button {
 
     // Thiết lập hành động cho nút Next
     private void initializeButton() {
+    	this.playerController= MusicAppApplication.getInstance().getPlayerController();
         this.setOnMouseClicked(this::handleNext); // Đặt sự kiện cho nút
+        
     }
 
     // Xử lý khi nhấn nút Next

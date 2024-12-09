@@ -50,7 +50,7 @@ public class Song {
 
     // Relationship with PlaylistSongs (1-N)
     @OneToMany(mappedBy = "song", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PlaylistSongs> playlistSongs;
+    private List<SongPlaylist> playlistSongs;
 
     // Constructors
     public Song() {

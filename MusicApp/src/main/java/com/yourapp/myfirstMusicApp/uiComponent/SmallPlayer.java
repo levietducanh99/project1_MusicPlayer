@@ -18,7 +18,8 @@ public class SmallPlayer {
 
     @FXML
     private SeekSlider seekSlider;
-
+    @FXML
+    private VolumeSlider volumeSlider;
     private PlayerController playerController;
     private AudioPlayer audioPlayer;
 

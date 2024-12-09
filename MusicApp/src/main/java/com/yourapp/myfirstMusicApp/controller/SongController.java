@@ -1,16 +1,24 @@
 package com.yourapp.myfirstMusicApp.controller;
 
+import java.io.IOException;
+
 import com.yourapp.myfirstMusicApp.MusicAppApplication;
 import com.yourapp.myfirstMusicApp.SongManager;
 import com.yourapp.myfirstMusicApp.model.Song;
 import com.yourapp.myfirstMusicApp.repository.SongRepository;
 import com.yourapp.myfirstMusicApp.uiComponent.PlayButton;
+import com.yourapp.myfirstMusicApp.uiComponent.PlaylistSelectionController;
 import com.yourapp.myfirstMusicApp.utils.TimeUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class SongController {
 
@@ -28,6 +36,8 @@ public class SongController {
 
     @FXML
     private PlayButton playButton; // Play button mới thêm vào
+    @FXML
+    private Button addToPlaylistButton; // Play button mới thêm vào
 
     private Song songData;  // Dữ liệu bài hát
 
@@ -63,4 +73,22 @@ public class SongController {
         MusicAppApplication.getInstance().getPlayerController().playAllSongs(SongManager.getInstance().getSongList(), SongManager.getInstance().getSelectedSong());
         
     }
+    @FXML
+    private void openPlaylistSelection() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/playlistSelection.fxml"));
+            Parent root = loader.load();
+
+            PlaylistSelectionController controller = loader.getController();
+            controller.loadPlaylists(songData); // Truyền dữ liệu bài hát hiện tại vào controller
+
+            Stage stage = new Stage();
+            stage.setTitle("Select Playlist");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
