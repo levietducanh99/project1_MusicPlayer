@@ -50,3 +50,8 @@
     -fx-text-fill: #0056b3;
     -fx-cursor: hand;
 }
+/* styles.css */
+.song-container {
+    -fx-spacing: 20px; /* Khoảng cách giữa các phần tử con */
+    -fx-padding: 10px; /* Khoảng cách giữa container và viền ngoài */
+}

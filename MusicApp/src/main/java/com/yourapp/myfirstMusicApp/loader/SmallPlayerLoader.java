@@ -32,7 +32,7 @@ public class SmallPlayerLoader {
     // Tạo mới một SmallPlayer từ FXML
     private static HBox loadSmallPlayer(MusicAppApplication app) {
         try {
-            FXMLLoader loader = new FXMLLoader(SmallPlayerLoader.class.getResource("/fxml/SmallPlayer.fxml"));
+            FXMLLoader loader = new FXMLLoader(SmallPlayerLoader.class.getResource("/fxml/smallPlayer.fxml"));
             HBox smallPlayerBox = loader.load();
             SmallPlayer controller = loader.getController();
             controller.setApp(app); // Gán ứng dụng cho SmallPlayer

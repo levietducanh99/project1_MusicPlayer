@@ -106,7 +106,7 @@
          </Pane>
       </center>
       <left>
-         <VBox fx:id="customMenuContainer1" alignment="CENTER" prefHeight="603.0" prefWidth="36.0" BorderPane.alignment="CENTER" />
+         <VBox fx:id="customMenuContainer" alignment="CENTER" prefHeight="605.0" prefWidth="74.0" BorderPane.alignment="CENTER" />
       </left>
    </BorderPane>
    

@@ -39,6 +39,8 @@ public class Song {
 
     @Column(name = "album")
     private String album;
+    @Column(name = "favourite")
+    private boolean isFavourite;
 
     // Relationship with Favorites (1-1)
     @OneToOne(mappedBy = "song", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -97,6 +99,6 @@ public class Song {
             e.printStackTrace();
         }
      // Sử dụng ảnh mặc định từ resources (đường dẫn tương đối)
-        return new Image(getClass().getResourceAsStream("/pic/gau.jpg")); // Đường dẫn từ classpath
+        return new Image(getClass().getResourceAsStream("/pic/playButton.png")); // Đường dẫn từ classpath
     }
 }

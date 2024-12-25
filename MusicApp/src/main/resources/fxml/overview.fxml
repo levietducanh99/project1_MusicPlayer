@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.myfirstMusicApp.controller.OverviewController">
+   <top>
+      <AnchorPane prefHeight="116.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="122.0" fitWidth="145.0" layoutX="248.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../pic/logo.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="396.0" layoutY="36.0" prefHeight="70.0" prefWidth="461.0" text="DA Music App">
+               <font>
+                  <Font name="Showcard Gothic" size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </top>
+   <left>
+      <VBox fx:id="customMenuContainer" alignment="CENTER" prefHeight="561.0" prefWidth="54.0" BorderPane.alignment="CENTER" />
+   </left>
+   <bottom>
+      <VBox prefHeight="106.0" prefWidth="1279.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <ScrollPane prefHeight="545.0" prefWidth="1166.0" BorderPane.alignment="CENTER">
+         <content>
+            <VBox prefHeight="698.0" prefWidth="1179.0">
+               <children>
+                  <Label prefHeight="47.0" prefWidth="415.0" text="  Recently Played" />
+                  <ScrollPane prefHeight="210.0" prefWidth="1176.0">
+                     <content>
+                        <HBox fx:id="historyContainer" prefHeight="189.0" prefWidth="1186.0" styleClass="song-container" stylesheets="@../css/song.css" />
+                     </content>
+                  </ScrollPane>
+                  <Label prefHeight="47.0" prefWidth="415.0" text="Likes" />
+                  <ScrollPane prefHeight="210.0" prefWidth="1162.0">
+                     <content>
+                        <HBox fx:id="favouritesContainer" prefHeight="196.0" prefWidth="1167.0" styleClass="song-container" stylesheets="@../css/song.css" />
+                     </content>
+                  </ScrollPane>
+                  <Label prefHeight="47.0" prefWidth="415.0" text="Playlist" />
+                  <HBox prefHeight="151.0" prefWidth="1182.0" />
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

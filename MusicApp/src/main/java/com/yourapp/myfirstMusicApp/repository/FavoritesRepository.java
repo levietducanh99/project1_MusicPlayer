@@ -6,6 +6,7 @@ import jakarta.persistence.Persistence;
 import java.util.List;
 
 import com.yourapp.myfirstMusicApp.model.Favorites;
+import com.yourapp.myfirstMusicApp.model.Song;
 
 public class FavoritesRepository {
 
@@ -81,6 +82,27 @@ public class FavoritesRepository {
                 em.getTransaction().rollback();
             }
             e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+    // Lấy tất cả các bài hát ưa thích
+    public List<Song> findAllFavouriteSongs() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("SELECT f.song FROM Favorites f", Song.class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    // Lấy 20 bài hát ưa thích mới nhất
+    public List<Song> findRecentFavouriteSongs() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("SELECT f.song FROM Favorites f ORDER BY f.addedAt DESC", Song.class)
+                     .setMaxResults(20)
+                     .getResultList();
         } finally {
             em.close();
         }

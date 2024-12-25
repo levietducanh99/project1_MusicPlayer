@@ -110,4 +110,23 @@ public class SongRepository {
             em.close();
         }
     }
+    public void updateFavouriteStatus(Long songId, boolean isFavourite) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Song song = em.find(Song.class, songId);
+            if (song != null) {
+                song.setFavourite(isFavourite);
+                em.merge(song);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
 }

@@ -6,12 +6,13 @@
 <?import com.yourapp.myfirstMusicApp.uiComponent.VolumeSlider?>
 <?import java.lang.String?>
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox prefHeight="56.0" prefWidth="963.0" styleClass="bottom_bar" stylesheets="@../css/abc.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.myfirstMusicApp.uiComponent.SmallPlayer">
+<HBox prefHeight="56.0" prefWidth="1280.0" styleClass="bottom_bar" stylesheets="@../css/abc.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.myfirstMusicApp.uiComponent.SmallPlayer">
    <children>
       <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="83.0" styleClass="Library-button" stylesheets="@../css/IconStyling.css" text="backbutton">
          <graphic>
@@ -45,7 +46,7 @@
             <String fx:value="Library-button" />
          </styleClass>
       </PauseButton>
-      <NextButton fx:id="nextButton" alignment="CENTER" contentDisplay="CENTER" prefHeight="51.0" prefWidth="54.0" styleClass="Library-button" stylesheets="@../css/IconStyling.css" text="next">
+       <NextButton fx:id="nextButton" alignment="CENTER" contentDisplay="CENTER" prefHeight="51.0" prefWidth="54.0" styleClass="Library-button" stylesheets="@../css/IconStyling.css" text="next">
          <graphic>
             <ImageView fitHeight="39.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -53,15 +54,18 @@
                </image>
             </ImageView>
          </graphic>
-      </NextButton>
-      <SeekSlider fx:id="seekSlider" prefHeight="57.0" prefWidth="529.0" stylesheets="@../css/playmusic.css">
+      </NextButton> 
+      <SeekSlider fx:id="seekSlider" prefHeight="57.0" prefWidth="528.0" stylesheets="@../css/playmusic.css">
          <styleClass>
             <String fx:value="slider" />
             <String fx:value="thumb" />
             <String fx:value="track" />
          </styleClass>
       </SeekSlider>
-      <Button mnemonicParsing="false" prefHeight="56.0" prefWidth="47.0" text="Button" />
+      <Button mnemonicParsing="false" prefHeight="56.0" prefWidth="62.0" text="Button">
+         <HBox.margin>
+            <Insets right="60.0" />
+         </HBox.margin></Button>
       <VolumeSlider prefHeight="56.0" prefWidth="127.0" />
    </children>
 </HBox>

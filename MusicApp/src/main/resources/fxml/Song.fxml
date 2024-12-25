@@ -41,7 +41,8 @@
             <String fx:value="Library-button" />
          </styleClass>
       </PlayButton>
-      <Button mnemonicParsing="false" onAction="#handleSongClick" prefHeight="30.0" prefWidth="89.0" text="Button" />
-      <Button fx:id="addToPlaylistButton" mnemonicParsing="false" onAction="#openPlaylistSelection" text="Button" />
+      <Button mnemonicParsing="false" onAction="#handleSongClick" prefHeight="30.0" prefWidth="89.0" text="Play all" />
+      <Button fx:id="addToPlaylistButton" mnemonicParsing="false" onAction="#openPlaylistSelection" text="Add to playlist" />
+      <Button fx:id="likeButton" mnemonicParsing="false" onAction="#handleLikeClick" prefHeight="26.0" prefWidth="77.0" text="♡" />
    </children>
 </HBox>

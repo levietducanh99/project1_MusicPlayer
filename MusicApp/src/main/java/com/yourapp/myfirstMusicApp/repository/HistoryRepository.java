@@ -4,8 +4,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.yourapp.myfirstMusicApp.model.History;
+import com.yourapp.myfirstMusicApp.model.Song;
 
 public class HistoryRepository {
 
@@ -34,6 +36,40 @@ public class HistoryRepository {
         EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery("SELECT h FROM History h", History.class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+ // Lấy tất cả bài hát từ lịch sử
+    public List<Song> findAllSong() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            // Lấy danh sách tất cả các lịch sử
+            List<History> histories = em.createQuery("SELECT h FROM History h ORDER BY h.playedAt DESC", History.class).getResultList();
+            // Lấy danh sách bài hát từ lịch sử
+            return histories.stream()
+                    .map(History::getSong) // Lấy bài hát từ mỗi lịch sử
+                    .distinct()           // Loại bỏ bài hát trùng lặp
+                    .collect(Collectors.toList());
+        } finally {
+            em.close();
+        }
+    }
+ // Lấy 20 bài hát phát gần nhất từ lịch sử
+    public List<Song> findRecentSongs() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            // Lấy danh sách lịch sử, sắp xếp theo thời gian phát gần nhất và giới hạn 20 bài hát
+            List<History> histories = em.createQuery(
+                    "SELECT h FROM History h ORDER BY h.playedAt DESC", History.class)
+                    .setMaxResults(20) // Giới hạn số lượng kết quả
+                    .getResultList();
+
+            // Lấy danh sách bài hát từ lịch sử và loại bỏ trùng lặp
+            return histories.stream()
+                    .map(History::getSong) // Lấy bài hát từ mỗi lịch sử
+                    .distinct()           // Loại bỏ bài hát trùng lặp
+                    .collect(Collectors.toList());
         } finally {
             em.close();
         }

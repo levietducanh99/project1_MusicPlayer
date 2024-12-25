@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="155.0" prefWidth="175.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.myfirstMusicApp.controller.SongControllerV2">
+   <children>
+      <ImageView fx:id="songImg" fitHeight="122.0" fitWidth="118.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="songName" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="175.0" text="Hello" />
+      <HBox prefHeight="18.0" prefWidth="166.0">
+         <children>
+            <Label fx:id="songArtist" prefHeight="18.0" prefWidth="111.0" text="Bray">
+               <padding>
+                  <Insets left="10.0" />
+               </padding></Label>
+            <Label fx:id="songDuration" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="97.0" text="1:22">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</VBox>

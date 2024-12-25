@@ -32,8 +32,7 @@ import java.util.List;
 
 public class LibraryController {
 
-    private MusicAppApplication app;
-    private List<Song> songLibrary;
+    private MusicAppApplication app;  
     private SongRepository songRepository;
     @FXML
     private VBox customMenuContainer; // Container hiện tại của bạn
@@ -46,10 +45,7 @@ public class LibraryController {
     public LibraryController() {
         this.songRepository = new SongRepository(); // Assuming SongRepository is properly initialized
     }
-    public void initializeLibrary() {
-        // Lấy tất cả bài hát từ cơ sở dữ liệu và lưu vào songLibrary
-        songLibrary = songRepository.findAll();
-    }
+
     
     @FXML
     private void handleGoBackToHome(ActionEvent event) {

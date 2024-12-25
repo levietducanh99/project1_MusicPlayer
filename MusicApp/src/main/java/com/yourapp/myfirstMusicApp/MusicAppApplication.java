@@ -1,6 +1,9 @@
 package com.yourapp.myfirstMusicApp;
 
+import com.yourapp.myfirstMusicApp.controller.FavouritesController;
+import com.yourapp.myfirstMusicApp.controller.HistoryController;
 import com.yourapp.myfirstMusicApp.controller.LibraryController;
+import com.yourapp.myfirstMusicApp.controller.OverviewController;
 import com.yourapp.myfirstMusicApp.controller.PlayerController;
 import com.yourapp.myfirstMusicApp.model.Song;
 import com.yourapp.myfirstMusicApp.repository.SongRepository;
@@ -28,7 +31,10 @@ public class MusicAppApplication extends Application {
     private Scene smallScene;
     private Scene playerScene;
     private Scene libraryScene;
+    private Scene overviewScene;
     private Scene customScene;
+    private Scene favouritesScene;
+    private Scene historyScene;
     private PlayerController playerController;  // Lưu playerController
     private SmallPlayer smallPlayer;
     private ObservableList<Song> playlist = FXCollections.observableArrayList(); // Danh sách bài hát
@@ -92,15 +98,48 @@ public class MusicAppApplication extends Application {
        smallPlayer.setApp(this);
         
         
-        
+    // Tải trang FXML cho overview
+       FXMLLoader overviewLoader = new FXMLLoader(getClass().getResource("/fxml/overview.fxml"));
+       BorderPane overviewPage = overviewLoader.load();
+       overviewScene = new Scene(overviewPage);
+
+       // Truyền tham chiếu primaryStage vào controller LibraryController
+       OverviewController overviewController = overviewLoader.getController();
+       overviewController.setApp(this);     
      
      
-    
+       // Tải trang FXML cho favourite
+       FXMLLoader favouritesLoader = new FXMLLoader(getClass().getResource("/fxml/favourites.fxml"));
+       BorderPane favouritesPage = favouritesLoader.load();
+       favouritesScene = new Scene(favouritesPage);
+
+       // Truyền tham chiếu primaryStage vào controller LibraryController
+       FavouritesController favouritesController = favouritesLoader.getController();
+       favouritesController.setApp(this); 
+       
+    // Tải trang FXML cho History
+       FXMLLoader historyLoader = new FXMLLoader(getClass().getResource("/fxml/history.fxml"));
+       BorderPane historyPage = historyLoader.load();
+       historyScene = new Scene(historyPage);
+
+       // Truyền tham chiếu primaryStage vào controller LibraryController
+       HistoryController historyController = historyLoader.getController();
+       historyController.setApp(this);
+       
+       
         // Đặt Scene mặc định là Home
         primaryStage.setTitle("Music App");
-        primaryStage.setScene(libraryScene);
+        primaryStage.setScene(historyScene);
         
         primaryStage.show();
+        
+        
+        
+        
+        
+        
+        
+        
     }
 // báo lỗi
     public void showErrorDialog(String title, String message) {
@@ -117,13 +156,21 @@ public class MusicAppApplication extends Application {
     public void showPlayerPage() {
         primaryStage.setScene(playerScene);
     }
-    public void showCustomPage() {
-        primaryStage.setScene(smallScene);
+    public void showOverviewPage() {
+        primaryStage.setScene(overviewScene);
     }
 
     // Chuyển đến trang Library
     public void showLibraryPage() {
         primaryStage.setScene(libraryScene);
+    }
+    // Chuyển đến trang Favourite
+    public void showFavouritesPage() {
+        primaryStage.setScene(favouritesScene);
+    }
+    // Chuyển đến trang Library
+    public void showHistoryPage() {
+        primaryStage.setScene(historyScene);
     }
 
 

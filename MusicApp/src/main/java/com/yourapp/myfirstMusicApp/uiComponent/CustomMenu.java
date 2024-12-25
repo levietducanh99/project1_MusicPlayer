@@ -19,11 +19,15 @@ public class CustomMenu extends VBox {
     private Button goToLibraryButton;
 
     @FXML
-    private Button goToCustomButton;
+    private Button goToHistoryButton;
 
 
     @FXML
     private Button goToPlayerButton;
+    @FXML
+    private Button goToOverviewButton;
+    @FXML
+    private Button goToFavouritesButton;
     VBox customMenu ;
     // Constructor mặc định
     public CustomMenu() {
@@ -55,13 +59,23 @@ public class CustomMenu extends VBox {
 
     // Xử lý sự kiện khi nhấn vào nút "Go to Player"
     @FXML
-    public void handleGoToCustomButton(ActionEvent event) {
+    public void handleGoToOverviewButton(ActionEvent event) {
         // Chuyển màn hình đến Player
-        app.showCustomPage(); // Gọi phương thức chuyển đến Player
+        app.showOverviewPage(); // Gọi phương thức chuyển đến Player
     }
     public void handleGoToPlayerButton(ActionEvent event) {
         // Chuyển màn hình đến Player
         app.showPlayerPage(); // Gọi phương thức chuyển đến Player
+    }
+    @FXML
+    public void handleGoToFavouritesButton(ActionEvent event) {
+        // Chuyển màn hình đến Library
+        app.showFavouritesPage(); // Gọi phương thức chuyển đến thư viện
+    }
+    @FXML
+    public void handleGoToHistoryButton(ActionEvent event) {
+        // Chuyển màn hình đến Library
+        app.showHistoryPage(); // Gọi phương thức chuyển đến thư viện
     }
     public VBox getRoot() {
         return this;

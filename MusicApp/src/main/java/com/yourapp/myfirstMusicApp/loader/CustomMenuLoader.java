@@ -11,6 +11,9 @@ public class CustomMenuLoader {
 
 	private static VBox libraryCustomMenu;
 	private static VBox playerCustomMenu;
+	private static VBox historyCustomMenu;
+	private static VBox overviewCustomMenu;
+	private static VBox favouritesCustomMenu;
 
 	public static VBox getLibraryMenu(MusicAppApplication app) {
 	    if (libraryCustomMenu == null) {
@@ -24,6 +27,24 @@ public class CustomMenuLoader {
 	        playerCustomMenu = loadMenu(app);
 	    }
 	    return playerCustomMenu;
+	}
+	public static VBox getHistoryMenu(MusicAppApplication app) {
+	    if (historyCustomMenu == null) {
+	    	historyCustomMenu = loadMenu(app);
+	    }
+	    return historyCustomMenu;
+	}
+	public static VBox getFavouritesMenu(MusicAppApplication app) {
+	    if (favouritesCustomMenu == null) {
+	    	favouritesCustomMenu = loadMenu(app);
+	    }
+	    return favouritesCustomMenu;
+	}
+	public static VBox getOverviewMenu(MusicAppApplication app) {
+	    if (overviewCustomMenu == null) {
+	    	overviewCustomMenu = loadMenu(app);
+	    }
+	    return overviewCustomMenu;
 	}
 
 	private static VBox loadMenu(MusicAppApplication app) {

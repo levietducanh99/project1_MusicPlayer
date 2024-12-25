@@ -61,7 +61,7 @@ public class PlayerController {
 
     private Song currentSong;  // Lưu trữ bài hát hiện tại đang phát
     @FXML
-    private VBox customMenuContainer1; // Container hiện tại của bạn
+    private VBox customMenuContainer; // Container hiện tại của bạn
    
     @FXML
     private NextButton nextButton;  // Liên kết với nút Next trong FXML
@@ -98,6 +98,7 @@ public class PlayerController {
             return;
         }
         nextButton.bindPlayerController(this);
+        customMenuContainer.getChildren().setAll(CustomMenuLoader.getPlayerMenu(MusicAppApplication.getInstance()));
         // Khởi tạo CustomMenu với MusicAppApplication
      // Tạo một instance của controller
        
@@ -112,7 +113,7 @@ public class PlayerController {
        
        
         // Chèn CustomMenu vào Pane hiện tại
-        customMenuContainer1.getChildren().setAll(CustomMenuLoader.getPlayerMenu(MusicAppApplication.getInstance()));
+     //   customMenuContainer1.getChildren().setAll(CustomMenuLoader.getPlayerMenu(MusicAppApplication.getInstance()));
    
              }
     

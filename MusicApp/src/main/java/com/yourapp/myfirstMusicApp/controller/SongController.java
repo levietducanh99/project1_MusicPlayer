@@ -38,7 +38,8 @@ public class SongController {
     private PlayButton playButton; // Play button mới thêm vào
     @FXML
     private Button addToPlaylistButton; // Play button mới thêm vào
-
+    @FXML
+    private Button likeButton;
     private Song songData;  // Dữ liệu bài hát
 
     public void setSongData(Song song) {
@@ -57,7 +58,8 @@ public class SongController {
         // Lấy ảnh từ metadata và đặt vào ImageView
         Image image = song.extractAlbumArt();
         songImg.setImage(image);
-
+     // Cập nhật giao diện của nút like dựa trên trạng thái isFavourite
+        updateLikeButton();
         // Cập nhật PlayButton với filePath của bài hát
         playButton.setFilePath(song.getFilePath());
     }
@@ -90,5 +92,26 @@ public class SongController {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void handleLikeClick() {
+        if (songData != null) {
+            // Đảo ngược trạng thái yêu thích
+            songData.setFavourite(!songData.isFavourite());
 
+            // Cập nhật cơ sở dữ liệu
+            SongRepository repository = new SongRepository();
+            repository.updateFavouriteStatus(songData.getId(), songData.isFavourite());
+
+            // Cập nhật giao diện
+            updateLikeButton();
+        }
+    }
+
+    private void updateLikeButton() {
+        if (songData.isFavourite()) {
+            likeButton.setText("♥"); // Đã yêu thích
+        } else {
+            likeButton.setText("♡"); // Chưa yêu thích
+        }
+    }
 }
