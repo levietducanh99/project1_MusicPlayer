@@ -21,14 +21,14 @@ public class Playlist {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "total_song")
     private int totalSong;
 
     @Column(name = "total_length")
-    private long totalLength;
+    private int totalLength;
 
     // Relationship with PlaylistSongs (1-N)
     @OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -38,7 +38,7 @@ public class Playlist {
     public Playlist() {
     }
 
-    public Playlist(String name, LocalDateTime createdAt, int totalSong, long totalLength) {
+    public Playlist(String name, LocalDateTime createdAt, int totalSong, int totalLength) {
         this.name = name;
         this.createdAt = createdAt;
         this.totalSong = totalSong;

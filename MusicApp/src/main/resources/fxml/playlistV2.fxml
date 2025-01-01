@@ -7,18 +7,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="149.0" prefWidth="168.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.myfirstMusicApp.controller.PlaylistController2">
+<VBox alignment="CENTER" prefHeight="219.0" prefWidth="234.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.myfirstMusicApp.controller.PlaylistController2">
    <children>
       <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../pic/MusicFolder.png" />
          </image>
       </ImageView>
-      <Label fx:id="playlistName" prefHeight="34.0" prefWidth="55.0" text="Label" textFill="#050202">
+      <Label fx:id="playlistName" alignment="CENTER" contentDisplay="CENTER" prefHeight="24.0" prefWidth="139.0" text="Label" textFill="#050202">
          <font>
-            <Font name=".Vn3DH Normal" size="14.0" />
+            <Font name=".VnCooper Medium" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="selectPlaylist" mnemonicParsing="false" onAction="#addToPlaylist" text="Button" />
+      <Button fx:id="selectPlaylist" mnemonicParsing="false" onAction="#addToPlaylist" text="Add to playlist" />
    </children>
 </VBox>

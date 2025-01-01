@@ -3,10 +3,13 @@ package com.yourapp.myfirstMusicApp.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 
+import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.yourapp.myfirstMusicApp.model.Song;
 import com.yourapp.myfirstMusicApp.model.SongPlaylist;
 
 public class SongPlaylistRepository {
@@ -147,6 +150,41 @@ public class SongPlaylistRepository {
         } finally {
             em.close();
             System.out.println("EntityManager closed.");
+        }
+    }
+    public List<Song> findSongsByPlaylistId(Long playlistId) {
+    	 EntityManager em = emf.createEntityManager();
+        String jpql = "SELECT sp.song FROM SongPlaylist sp WHERE sp.playlist.id = :playlistId";
+        TypedQuery<Song> query = em.createQuery(jpql, Song.class);
+        query.setParameter("playlistId", playlistId);
+        return query.getResultList();
+    }
+    public void removeSongFromPlaylist(Long playlistId, Long songId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            // Xóa bài hát khỏi playlist dựa trên playlistId và songId
+            int deletedCount = em.createQuery(
+                    "DELETE FROM SongPlaylist sp WHERE sp.playlist.id = :playlistId AND sp.song.id = :songId")
+                .setParameter("playlistId", playlistId)
+                .setParameter("songId", songId)
+                .executeUpdate();
+
+            if (deletedCount > 0) {
+                System.out.println("Song removed from playlist successfully.");
+            } else {
+                System.out.println("The song is not in the playlist.");
+            }
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
         }
     }
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.yourapp.myfirstMusicApp.uiComponent.PlaySongButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox fx:id="songHBox" alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="834.0" stylesheets="@../css/song.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.myfirstMusicApp.controller.SongControllerV3">
+   <children>
+      <ImageView fx:id="songImg" fitHeight="100.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../pic/Player.png" />
+         </image></ImageView>
+      <VBox prefHeight="100.0" prefWidth="298.0">
+         <children>
+            <Label fx:id="songName" prefHeight="46.0" prefWidth="245.0" styleClass="song-name" text="Wayback home">
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </Label>
+            <Label fx:id="songArtist" prefHeight="22.0" prefWidth="164.0" styleClass="song-artist" text="Bray" />
+            <Label fx:id="songDuration" prefHeight="20.0" prefWidth="67.0" styleClass="song-duration" text="2:30" />
+         </children>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </VBox>
+      <PlaySongButton fx:id="playSongButton" stylesheets="@../css/playmusic.css">
+         <graphic>
+            <ImageView fitHeight="43.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../pic/playSong.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </PlaySongButton>
+      <Button mnemonicParsing="false" onAction="#handleSongClick" prefHeight="30.0" prefWidth="89.0" text="Play all" />
+      <Button fx:id="likeButton" mnemonicParsing="false" onAction="#handleLikeClick" prefHeight="26.0" prefWidth="77.0" text="♡" />
+      <Button mnemonicParsing="false" onAction="#removeFromPlaylist" prefHeight="26.0" prefWidth="80.0" text="Remove" />
+   </children>
+</HBox>

@@ -78,6 +78,7 @@ public class HistoryController {
 	     //   customMenuContainer.getChildren().setAll(new CustomMenu(MusicAppApplication.getInstance()));
 	//        smallPlayerContainer.getChildren().setAll(SmallPlayerLoader.getLibrarySmallPlayer(MusicAppApplication.getInstance()));
 	        loadSongs();
+	        smallPlayerContainer.getChildren().setAll(SmallPlayerLoader.getHistorySmallPlayer(MusicAppApplication.getInstance()));
 	    }
 
 	    private void loadSongs() {
@@ -95,7 +96,7 @@ public class HistoryController {
 
 	                // Gán dữ liệu cho bài hát
 	                controller.setSongData(song);
-
+	                controller.setSongList(songs);
 	                // Thêm Node vào songContainer
 	                songContainer.getChildren().add(songNode);
 	            } catch (IOException e) {
@@ -103,15 +104,9 @@ public class HistoryController {
 	            }
 	        }
 	    }
-
-	    
-	    private void handleSongSelection(Song selectedSong) {
-	        // Lấy danh sách bài hát từ ListView
-	      
-	        // Truyền danh sách bài hát và bài hát được chọn vào SongManager
-	        SongManager.getInstance().setSongList(SongRepository.findAll());
-	        SongManager.getInstance().setSelectedSong(selectedSong);
-
-	    
+	    // Cập nhật lại dữ liệu của History
+	    public void updateHistoryData() {
+	        songContainer.getChildren().clear(); // Xóa các bài hát cũ
+	        loadSongs(); // Tải lại bài hát lịch sử
 	    }
 	}

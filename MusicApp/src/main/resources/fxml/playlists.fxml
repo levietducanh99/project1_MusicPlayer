@@ -10,18 +10,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.myfirstMusicApp.controller.PlaylistsController">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <ScrollPane layoutX="177.0" layoutY="191.0" prefHeight="357.0" prefWidth="843.0">
                <content>
-                  <TilePane prefHeight="358.0" prefWidth="826.0">
+                  <TilePane fx:id="playlistsContainer" prefHeight="358.0" prefWidth="826.0">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="149.0" prefWidth="168.0">
+                        <VBox alignment="CENTER" prefHeight="218.0" prefWidth="238.0">
                            <children>
-                              <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="158.0" fitWidth="166.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../pic/MusicFolder.png" />
                                  </image>
@@ -31,6 +30,8 @@
                                     <Font name=".Vn3DH Normal" size="14.0" />
                                  </font>
                               </Label>
+                              <Label text="total song" />
+                              <Label text="total length" />
                            </children>
                         </VBox>
                      </children>

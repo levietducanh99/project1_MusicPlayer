@@ -29,6 +29,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -74,6 +75,8 @@ public class PlayerController {
     private SeekSlider seekSlider; // Sử dụng SeekSlider
     @FXML
     private VolumeSlider volumeSlider;
+    @FXML
+    private VBox songListContainer;
     private PlayerService playerService;
     // Cung cấp phương thức để controller nhận tham chiếu của MusicAppApplication
     public void setApp(MusicAppApplication app) {
@@ -99,22 +102,7 @@ public class PlayerController {
         }
         nextButton.bindPlayerController(this);
         customMenuContainer.getChildren().setAll(CustomMenuLoader.getPlayerMenu(MusicAppApplication.getInstance()));
-        // Khởi tạo CustomMenu với MusicAppApplication
-     // Tạo một instance của controller
-       
-        
-        
-     // Khởi tạo CustomMenu và thêm vào mainContainer
- //      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CustomMenu.fxml"));
- //      VBox customMenu = loader.load();
-//       CustomMenu controller = loader.getController();
-   //    controller.setApp(app); // Gán app trước
-     //  System.out.println("app in this is:  " + app);
-       
-       
-        // Chèn CustomMenu vào Pane hiện tại
-     //   customMenuContainer1.getChildren().setAll(CustomMenuLoader.getPlayerMenu(MusicAppApplication.getInstance()));
-   
+  
              }
     
     
@@ -127,11 +115,7 @@ public class PlayerController {
     public boolean isPlaying() {
         return isPlaying;
     }
-    @FXML
-    public void handleGoToLibraryButton() {
-    	
-        app.showLibraryPage(); // Gọi phương thức chuyển đến trang Library
-    }
+
     @FXML
     public void handlePlaySong1() {
         // Mở cửa sổ chọn file để chọn bài hát
@@ -265,7 +249,9 @@ public class PlayerController {
     	audioPlayer.stop();
     	  currentSongIndex = (currentSongIndex + 1) % currentPlaylist.size(); // Phát lặp vòng nếu hết danh sách
         if (currentSongIndex < currentPlaylist.size()) {
+        	this.currentSong = currentPlaylist.get(currentSongIndex);
             handlePlaySongFromEntity(currentPlaylist.get(currentSongIndex));
+            displaySongs(currentPlaylist); // Cập nhật giao diện sau khi chuyển bài
         } else {
             System.out.println("Đã phát hết danh sách bài hát.");
         }
@@ -280,8 +266,7 @@ public class PlayerController {
         });
     }
     public void playAllSongs(List<Song> songLibrary, Song selectedSong) {
-     //   System.out.println("Danh sách bài hát hiện tại (trước khi cập nhật): " + currentPlaylist);
-      //  System.out.println("Danh sách bài hát mới: " + songLibrary);
+     
 
         // Cập nhật danh sách bài hát
         this.currentPlaylist.clear();
@@ -289,10 +274,12 @@ public class PlayerController {
 
         // Xác định chỉ mục của bài hát được chọn
         currentSongIndex = currentPlaylist.indexOf(selectedSong);
-        System.out.println("Chỉ mục bài hát được chọn: " + currentSongIndex);
+        
 
         // Phát bài hát được chọn nếu tìm thấy
         if (currentSongIndex != -1) {
+        	this.currentSong = currentPlaylist.get(currentSongIndex);
+        	displaySongs(songLibrary);
             handlePlaySongFromEntity(currentPlaylist.get(currentSongIndex));
             setupEndOfSongListener(); // Thiết lập sự kiện khi bài hát kết thúc
         } else {
@@ -300,6 +287,31 @@ public class PlayerController {
         }
     }
 
+    private void displaySongs(List<Song> songLibrary) {
+        // Xóa tất cả các Song hiện tại
+        VBox songListContainer = app.getPlayerController().getSongListContainer(); // Giả sử bạn có một VBox để chứa danh sách bài hát
+        songListContainer.getChildren().clear();
 
+        // Tải và hiển thị mỗi bài hát
+        for (Song song : songLibrary) {
+            try {
+                FXMLLoader songLoader = new FXMLLoader(getClass().getResource("/fxml/song.fxml"));
+                HBox songPane = songLoader.load();
+                SongController songController = songLoader.getController();
+                songController.setSongData(song);  // Cập nhật Song vào controller của song.fxml
 
+                // Đánh dấu bài hát đang phát
+                if (song.equals(currentSong)) {
+                	songController.markAsPlaying(); // Đánh dấu bài hát đang phát
+                }
+
+                // Thêm songPane vào container
+                songListContainer.getChildren().add(songPane);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+}
 }

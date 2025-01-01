@@ -7,6 +7,7 @@ import java.util.Optional;
 import com.yourapp.myfirstMusicApp.MusicAppApplication;
 import com.yourapp.myfirstMusicApp.SongManager;
 import com.yourapp.myfirstMusicApp.model.Song;
+import com.yourapp.myfirstMusicApp.repository.SongPlaylistRepository;
 import com.yourapp.myfirstMusicApp.repository.SongRepository;
 import com.yourapp.myfirstMusicApp.uiComponent.PlayButton;
 import com.yourapp.myfirstMusicApp.uiComponent.PlaySongButton;
@@ -25,8 +26,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-
-public class SongController {
+import lombok.Data;
+@Data
+public class SongControllerV3 {
 
     @FXML
     private Label songArtist;
@@ -43,16 +45,16 @@ public class SongController {
     @FXML
     private PlaySongButton playSongButton; // Play button mới thêm vào
     @FXML
-    private Button addToPlaylistButton; // Play button mới thêm vào
-    @FXML
     private Button likeButton;
     @FXML HBox songHBox;
     private Song songData;  // Dữ liệu bài hát
     private List<Song> currentSongList;
+    private long currentPlaylistId;
 
     public void setSongList(List<Song> songList) {
         this.currentSongList = songList;
     }
+    
     public void setSongData(Song song) {
         // Lưu bài hát vào songData để sử dụng sau
         this.songData = song;
@@ -121,35 +123,20 @@ public class SongController {
     private void updateLikeButton() {
         if (songData.isFavourite()) {
             likeButton.setText("♥"); // Đã yêu thích
-            likeButton.getStyleClass().add("liked"); // Thêm lớp "liked" cho hiệu ứng CSS
         } else {
             likeButton.setText("♡"); // Chưa yêu thích
-            likeButton.getStyleClass().remove("liked"); // Xóa lớp "liked"
         }
     }
     // Cập nhật giao diện khi bài hát đang phát
     public void markAsPlaying() {
         songHBox.getStyleClass().add("song-playing");
     }
-    @FXML
-    private void handleDeleteClick() {
-        if (songData != null) {
-            // Hiển thị cảnh báo xác nhận trước khi xóa
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Xóa bài hát");
-            alert.setHeaderText("Bạn có chắc chắn muốn xóa bài hát này?");
-            alert.setContentText("Bài hát sẽ bị xóa khỏi thư viện và tất cả các danh sách liên quan.");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                // Xóa bài hát khỏi cơ sở dữ liệu và các bảng liên quan
-                SongRepository repository = new SongRepository();
-                repository.delete(songData);
-                MusicAppApplication.getInstance().getLibraryController().loadSongs();
-                // Cập nhật lại thư viện (hoặc quay lại trang trước đó)
-                
-                System.out.println("Bài hát đã bị xóa: " + songData.getTitle());
-            }
-        }
-}
+  
+    @FXML 
+    private void removeFromPlaylist()
+    {
+    	SongPlaylistRepository songPlaylistRepository = new SongPlaylistRepository();
+    	songPlaylistRepository.removeSongFromPlaylist(currentPlaylistId, songData.getId());
+    	MusicAppApplication.getInstance().getPlaylistDetailController().loadSongsByPlaylistId(currentPlaylistId);
+    }
 }

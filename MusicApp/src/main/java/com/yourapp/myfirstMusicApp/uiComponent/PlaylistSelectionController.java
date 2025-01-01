@@ -21,8 +21,7 @@ public class PlaylistSelectionController {
     @FXML
     private TilePane playlistTilePane;
 
-    @FXML
-    private Button closeButton;
+    
    
 
     private Song currentSong;
@@ -34,10 +33,7 @@ public class PlaylistSelectionController {
 
     @FXML
     private void initialize() {
-        closeButton.setOnAction(event -> {
-            Stage stage = (Stage) closeButton.getScene().getWindow();
-            stage.close();
-        });
+       
     }
 
     public void loadPlaylists(Song currentSong) {

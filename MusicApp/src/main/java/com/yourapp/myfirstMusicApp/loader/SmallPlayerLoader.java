@@ -12,7 +12,9 @@ public class SmallPlayerLoader {
     // Lưu các instance riêng biệt cho từng Scene
     private static HBox librarySmallPlayer;
     private static HBox playerSmallPlayer;
-
+    private static HBox historySmallPlayer;
+    private static HBox overviewSmallPlayer;
+    private static HBox favouriteSmallPlayer;
     // Trả về SmallPlayer cho Library
     public static HBox getLibrarySmallPlayer(MusicAppApplication app) {
         if (librarySmallPlayer == null) {
@@ -27,6 +29,24 @@ public class SmallPlayerLoader {
             playerSmallPlayer = loadSmallPlayer(app);
         }
         return playerSmallPlayer;
+    }
+    public static HBox getFavouriteSmalPlayer(MusicAppApplication app) {
+        if (favouriteSmallPlayer == null) {
+        	favouriteSmallPlayer = loadSmallPlayer(app);
+        }
+        return favouriteSmallPlayer;
+    }
+    public static HBox getOverviewSmallPlayer(MusicAppApplication app) {
+        if (overviewSmallPlayer == null) {
+            overviewSmallPlayer = loadSmallPlayer(app);
+        }
+        return overviewSmallPlayer;
+    }
+    public static HBox getHistorySmallPlayer(MusicAppApplication app) {
+        if (historySmallPlayer == null) {
+            historySmallPlayer = loadSmallPlayer(app);
+        }
+        return historySmallPlayer;
     }
 
     // Tạo mới một SmallPlayer từ FXML

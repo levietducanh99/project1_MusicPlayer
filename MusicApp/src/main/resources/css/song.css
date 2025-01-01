@@ -55,3 +55,78 @@
     -fx-spacing: 20px; /* Khoảng cách giữa các phần tử con */
     -fx-padding: 10px; /* Khoảng cách giữa container và viền ngoài */
 }
+/* Đặt kiểu chung cho nút */
+#playSongButton {
+    -fx-background-color: transparent; /* Nền trong suốt */
+    -fx-padding: 5; /* Khoảng cách giữa nội dung và viền nút */
+    -fx-border-radius: 50%; /* Bo tròn nút */
+    -fx-background-radius: 50%; /* Bo tròn nền */
+    -fx-cursor: hand; /* Thay đổi con trỏ khi hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0.5, 0, 1); /* Hiệu ứng đổ bóng nhẹ */
+    -fx-alignment: center;
+    transition: transform 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Hiệu ứng hover */
+#playSongButton:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.2); /* Nền mờ nhẹ */
+   
+    -fx-effect: dropshadow(gaussian, rgba(0, 150, 255, 0.8), 15, 0.7, 0, 2); /* Ánh sáng xanh */
+   
+    
+}
+
+/* Hiệu ứng khi click */
+#playSongButton:pressed {
+    -fx-background-color: rgba(255, 255, 255, 0.4); /* Tăng độ sáng nền */
+   
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 1), 20, 0.9, 0, 3); /* Sáng mạnh */
+}
+
+.song-playing {
+    -fx-background-color: #ffcc00 !important;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 2px;
+    -fx-border-color: #ff9933;
+    -fx-effect: dropshadow(gaussian, rgba(255, 140, 0, 0.7), 10, 0.5, 0, 0);
+
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+/* Nút Like cơ bản */
+#likeButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ff66b2; /* Màu hồng nhẹ */
+    -fx-font-size: 24px; /* Kích thước chữ */
+    -fx-font-weight: bold;
+    -fx-background-radius: 50%; /* Bo tròn để tạo hình tròn */
+    -fx-border-color: #ff66b2; /* Màu viền */
+    -fx-border-width: 2px;
+    -fx-border-radius: 50%;
+    -fx-padding: 5px;
+    -fx-alignment: center; /* Căn chỉnh chữ vào giữa */
+    -fx-transition: background-color 0.3s, transform 0.3s ease-in-out; /* Thêm hiệu ứng chuyển động */
+}
+
+/* Hiệu ứng khi hover vào nút Like */
+#likeButton:hover {
+    -fx-background-color: #ff66b2; /* Màu nền chuyển sang hồng khi hover */
+    -fx-text-fill: white; /* Màu chữ đổi thành trắng khi hover */
+    -fx-scale-x: 1.1; /* Phóng to nút khi hover */
+    -fx-scale-y: 1.1;
+}
+
+/* Hiệu ứng khi nút Like được nhấn */
+#likeButton:pressed {
+    -fx-background-color: #ff3399; /* Màu nền đậm hơn khi nhấn */
+    -fx-text-fill: white; /* Chữ màu trắng khi nhấn */
+    -fx-scale-x: 0.95; /* Thu nhỏ nút khi nhấn */
+    -fx-scale-y: 0.95;
+}
+
+/* Hiệu ứng khi thêm vào "like" (có thể thêm nếu cần) */
+#likeButton.liked {
+    -fx-text-fill: #ff3399; /* Màu hồng đậm khi nút đã được like */
+}
+

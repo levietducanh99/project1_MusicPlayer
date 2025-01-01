@@ -4,7 +4,7 @@
 -fx-background-color:linear-gradient( from 25% 25% to 100% 100% , #0B1E3E , #4E154C);
 }
 .body_bakground {
-    -fx-background-color:linear-gradient( from 25% 25% to 100% 100% , #054cc8 , #760172);
+    -fx-background-color:linear-gradient(from 0% 0% to 100% 100%, #12c2e9, #c471ed,#f64f59);
 }
 .sidebar {
     -fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #146886, #0B1E3E); /* Gradient background */
@@ -46,10 +46,116 @@
     -fx-border-radius: 5;
     -fx-background-radius: 5;
 }
+.Scrollcontainer {
+    -fx-spacing: 10px;
+    -fx-padding: 10px;
+    -fx-background-color: #ff6f69;
+    -fx-border-color: #505050;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
 
 /* Hover effect for sidebar items */
 .sidebarItem:hover {
     -fx-background-color: #146886; /* Blue background on hover */
     -fx-border-color: white; /* White border on hover */
     -fx-border-width: 0px 0px 0px 3px; /* Left border effect */
+}
+/* Song Container */
+.song-container {
+    -fx-spacing: 10px;
+    -fx-padding: 10px;
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #ffe259, #ffa751);
+   
+}
+/* Base Label Styling */
+.label1 {
+    -fx-text-fill: #000000; /* Black text */
+    -fx-font-weight: bold;
+ 
+    -fx-font-size: 16px;
+    -fx-background-color: #ff6f69; /* Light gray background */
+    -fx-padding: 10px 15px; /* Inner padding for better spacing */
+    -fx-border-color: #dcdcdc; /* Light border */
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px; /* Rounded corners */
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 5, 0.5, 2, 2); /* Subtle shadow */
+    -fx-alignment: center; /* Center text alignment */
+    -fx-transition: all 0.3s ease; /* Smooth transition for effects */
+}
+
+/* Hover Effect */
+Label:hover {
+    -fx-background-color: #e0e0e0; /* Slightly darker background on hover */
+    -fx-border-color: #c0c0c0; /* Darker border on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.35), 8, 0.6, 2, 2); /* Stronger shadow on hover */
+    -fx-scale-x: 1.05; /* Slightly enlarge horizontally */
+    -fx-scale-y: 1.05; /* Slightly enlarge vertically */
+}
+/* Cải thiện toàn bộ ScrollPane */
+.scroll-pane {
+    -fx-background-color: transparent; /* Nền trong suốt */
+    -fx-border-width: 1;
+    -fx-border-color: #cccccc; /* Đường viền mờ */
+    -fx-border-radius: 8px; /* Bo tròn các góc */
+}
+
+/* Nền khi hover lên ScrollPane */
+.scroll-pane:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.05); /* Nền mờ khi hover */
+}
+
+/* Chỉnh sửa thanh cuộn */
+.scroll-pane .scroll-bar {
+    -fx-background-color: rgba(0, 0, 0, 0.1); /* Màu nền cho thanh cuộn */
+    -fx-background-radius: 8px; /* Bo tròn thanh cuộn */
+    -fx-pref-width: 10px; /* Chiều rộng của thanh cuộn */
+    -fx-pref-height: 10px; /* Chiều cao của thanh cuộn */
+}
+
+/* Thanh cuộn dọc */
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 8px;
+    -fx-padding: 5px;
+}
+
+/* Thanh cuộn ngang */
+.scroll-pane .scroll-bar:horizontal {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 8px;
+    -fx-padding: 5px;
+}
+
+/* Chỉnh sửa thanh cuộn khi hover */
+.scroll-pane .scroll-bar:hover {
+    -fx-background-color: #a0a0a0; /* Màu nền khi hover */
+}
+
+/* Cải thiện scrollbar thumb */
+.scroll-pane .scroll-bar .thumb {
+    -fx-background-color: #cccccc; /* Màu sắc của thanh cuộn */
+    -fx-background-radius: 8px; /* Bo tròn các góc */
+}
+
+/* Thanh cuộn thumb khi hover */
+.scroll-pane .scroll-bar .thumb:hover {
+    -fx-background-color: #888888; /* Màu sắc khi hover */
+}
+
+.image-style {
+    -fx-background-radius: 15px; /* Bo tròn các góc */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0.0, 0.0, 10); /* Bóng đổ nhẹ */
+    -fx-border-radius: 15px; /* Bo tròn các góc của viền */
+    -fx-border-color: #cccccc; /* Màu viền cho ảnh */
+    -fx-border-width: 2px; /* Độ dày viền */
+}
+
+/* Hiệu ứng zoom khi hover vào ảnh */
+.image-style:hover {
+    -fx-scale-x: 1.1; /* Phóng to ảnh khi hover */
+    -fx-scale-y: 1.1; /* Phóng to ảnh khi hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 15, 0.0, 0.0, 15); /* Bóng đổ mạnh khi hover */
 }

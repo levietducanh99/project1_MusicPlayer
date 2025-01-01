@@ -10,6 +10,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,9 +18,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yourapp.myfirstMusicApp.controller.PlayerController">
-   <HBox layoutX="-2.0" layoutY="744.0" prefHeight="54.0" prefWidth="1280.0" spacing="5.0" styleClass="bottom_bar" stylesheets="@../css/abc.css">
+   <HBox alignment="CENTER" layoutX="-2.0" layoutY="744.0" prefHeight="54.0" prefWidth="1280.0" spacing="5.0" styleClass="bottom_bar" stylesheets="@../css/abc.css">
       <children>
          <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="59.0" prefWidth="83.0" styleClass="Library-button" stylesheets="@../css/IconStyling.css" text="backbutton">
             <graphic>
@@ -72,12 +74,12 @@
             </styleClass></SeekSlider>
       
           <!-- MenuButton chọn tốc độ -->
-          <MenuButton mnemonicParsing="false" prefHeight="53.0" prefWidth="51.0" text="Speed">
+          <MenuButton mnemonicParsing="false" prefHeight="33.0" prefWidth="60.0" text="Speed">
               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x1" />
-                  <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x2" />
                   <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x0.5" />
+                  <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x1" />
                   <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x1.5" />
+                  <MenuItem mnemonicParsing="false" onAction="#changeSpeed" text="x2" />
               </items>
           </MenuButton>
          <VolumeSlider fx:id="volumeSlider" prefHeight="54.0" prefWidth="223.0" />
@@ -85,14 +87,18 @@
    </HBox>
    <BorderPane layoutX="1.0" prefHeight="744.0" prefWidth="1280.0" styleClass="body_bakground" stylesheets="@../css/abc.css">
       <top>
-         <Pane prefHeight="139.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+         <Pane prefHeight="124.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
             <children>
-            
-                                              <!-- Label hiển thị -->
-                <Label alignment="CENTER" layoutX="1.0" prefHeight="46.0" prefWidth="1280.0" styleClass="sidebarItem" stylesheets="@../css/playmusic.css" text="This is music player app" />
-            
-                <!-- Nút Play Music -->
-                <Button layoutX="1.0" layoutY="60.0" onAction="#handlePlaySong1" prefHeight="60.0" prefWidth="96.0" styleClass="sidebarItem" text="PlayMusic" />
+               <ImageView fitHeight="109.0" fitWidth="116.0" layoutX="319.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" styleClass="image-style">
+                  <image>
+                     <Image url="@../pic/logo2.png" />
+                  </image>
+               </ImageView>
+               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="409.0" layoutY="26.0" prefHeight="73.0" prefWidth="539.0" styleClass="gradient-text" stylesheets="@../css/text.css" text="DA Music App">
+                  <font>
+                     <Font name="Showcard Gothic" size="36.0" />
+                  </font>
+               </Label>
             </children>
          </Pane>
       </top>
@@ -101,7 +107,19 @@
             <children>
             
                             <!-- Hình ảnh bìa album -->
-                <ImageView fx:id="albumArtView" fitHeight="205.0" fitWidth="226.0" layoutX="174.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="albumArtView" fitHeight="205.0" fitWidth="226.0" layoutX="38.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true" styleClass="image-style" />
+               <ScrollPane layoutX="356.0" layoutY="14.0" prefHeight="547.0" prefWidth="820.0">
+                  <content>
+                     <VBox fx:id="songListContainer" alignment="CENTER" prefHeight="544.0" prefWidth="806.0" style="-fx-background-color: e278d4;" styleClass="Scrollcontainer">
+                        <children>
+                           <ImageView fitHeight="497.0" fitWidth="575.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../pic/giphy.gif" />
+                              </image>
+                           </ImageView>
+                        </children></VBox>
+                  </content>
+               </ScrollPane>
             </children>
          </Pane>
       </center>

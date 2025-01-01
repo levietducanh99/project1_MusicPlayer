@@ -1,0 +1,22 @@
+
+.gradient-text {
+    -fx-text-fill: linear-gradient(from 0% 0% to 100% 100%, #FF512F, #DD2476); /* Tạo gradient từ màu hồng đến cam */
+    -fx-font-size: 50px;
+    -fx-font-weight: bold;
+}
+
+/* Viền cho chữ */
+.gradient-text-with-border {
+    -fx-text-fill: linear-gradient(from 0% 0% to 100% 100%, #ff7e5f, #feb47b); /* Gradient cho chữ */
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-effect: innershadow(gaussian, #000000, 2, 0.0, 0.0, 1); /* Thêm viền bằng hiệu ứng shadow */
+    -fx-font-family: "Arial";
+    -fx-stroke: #000000; /* Màu viền */
+    -fx-stroke-width: 1px; /* Độ dày viền */
+}
+.text-gradient {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+   
+}

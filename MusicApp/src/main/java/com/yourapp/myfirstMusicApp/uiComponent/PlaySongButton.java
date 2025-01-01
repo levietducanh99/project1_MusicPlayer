@@ -8,18 +8,18 @@ import lombok.Setter;
 import com.yourapp.myfirstMusicApp.AudioPlayer;
 import com.yourapp.myfirstMusicApp.model.History;
 
-public class PlayButton extends Button {
+public class PlaySongButton extends Button {
 
     private String filePath; // Đường dẫn đến file MP3
 
     // Constructor mặc định (bắt buộc để FXML sử dụng)
-    public PlayButton() {
+    public PlaySongButton() {
         super(); // Gọi constructor của Button
         initializeButton();
     }
 
     // Constructor hiện tại với tham số (nếu bạn muốn dùng nó trong code Java)
-    public PlayButton(String filePath) {
+    public PlaySongButton(String filePath) {
         super();
         this.filePath = filePath;
         initializeButton();
@@ -28,13 +28,7 @@ public class PlayButton extends Button {
     // Thiết lập các hành động khi nhấn nút
     private void initializeButton() {
         this.setOnMouseClicked(this::handlePlay);
-        AudioPlayer.getInstance().isPlayingProperty().addListener((obs, wasPlaying, isPlaying) -> {
-            if (isPlaying) {
-                this.getStyleClass().remove("paused");
-            } else {
-                this.getStyleClass().add("paused");
-            }
-        });
+ 
     }
 
     // Xử lý khi nhấn nút Play

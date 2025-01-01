@@ -5,6 +5,8 @@ import com.yourapp.myfirstMusicApp.controller.HistoryController;
 import com.yourapp.myfirstMusicApp.controller.LibraryController;
 import com.yourapp.myfirstMusicApp.controller.OverviewController;
 import com.yourapp.myfirstMusicApp.controller.PlayerController;
+import com.yourapp.myfirstMusicApp.controller.PlaylistDetailController;
+import com.yourapp.myfirstMusicApp.controller.PlaylistsController;
 import com.yourapp.myfirstMusicApp.model.Song;
 import com.yourapp.myfirstMusicApp.repository.SongRepository;
 import com.yourapp.myfirstMusicApp.uiComponent.SmallPlayer;
@@ -35,7 +37,15 @@ public class MusicAppApplication extends Application {
     private Scene customScene;
     private Scene favouritesScene;
     private Scene historyScene;
-    private PlayerController playerController;  // Lưu playerController
+    private Scene playlistsScence;
+    private Scene playlistDetailScene;
+    private PlayerController playerController; 
+    private OverviewController overviewController;
+    private FavouritesController favouritesController;
+    private HistoryController historyController;
+    private LibraryController libraryController;
+    // Lưu playerController
+    private PlaylistDetailController playlistDetailController;
     private SmallPlayer smallPlayer;
     private ObservableList<Song> playlist = FXCollections.observableArrayList(); // Danh sách bài hát
     private int currentSongIndex = 0; // Chỉ số bài hát hiện tại
@@ -85,7 +95,7 @@ public class MusicAppApplication extends Application {
         libraryScene = new Scene(libraryPage);
 
         // Truyền tham chiếu primaryStage vào controller LibraryController
-        LibraryController libraryController = libraryLoader.getController();
+         libraryController = libraryLoader.getController();
         libraryController.setApp(this);
         
         // cho smallplayer
@@ -104,7 +114,7 @@ public class MusicAppApplication extends Application {
        overviewScene = new Scene(overviewPage);
 
        // Truyền tham chiếu primaryStage vào controller LibraryController
-       OverviewController overviewController = overviewLoader.getController();
+       overviewController = overviewLoader.getController();
        overviewController.setApp(this);     
      
      
@@ -114,7 +124,7 @@ public class MusicAppApplication extends Application {
        favouritesScene = new Scene(favouritesPage);
 
        // Truyền tham chiếu primaryStage vào controller LibraryController
-       FavouritesController favouritesController = favouritesLoader.getController();
+        favouritesController = favouritesLoader.getController();
        favouritesController.setApp(this); 
        
     // Tải trang FXML cho History
@@ -123,13 +133,30 @@ public class MusicAppApplication extends Application {
        historyScene = new Scene(historyPage);
 
        // Truyền tham chiếu primaryStage vào controller LibraryController
-       HistoryController historyController = historyLoader.getController();
+        historyController = historyLoader.getController();
        historyController.setApp(this);
+    // Tải trang FXML cho Playlist
+//       FXMLLoader playlistsLoader = new FXMLLoader(getClass().getResource("/fxml/playlists.fxml"));
+//       BorderPane playlistsPage = playlistsLoader.load();
+//       playlistsScence = new Scene(playlistsPage);
+//
+//       // Truyền tham chiếu primaryStage vào controller LibraryController
+//       PlaylistsController playlistsController = playlistsLoader.getController();
+//       playlistsController.setApp(this);
        
+       // Tải playlistDetail.fxml
+       FXMLLoader playlistDetailLoader = new FXMLLoader(getClass().getResource("/fxml/playlistDetail.fxml"));
+       VBox playlistDetailPage = playlistDetailLoader.load();
+       playlistDetailScene = new Scene(playlistDetailPage);
+    // Lưu controller để có thể cập nhật dữ liệu
+      playlistDetailController = playlistDetailLoader.getController();
+    
+
+     
        
         // Đặt Scene mặc định là Home
         primaryStage.setTitle("Music App");
-        primaryStage.setScene(historyScene);
+        primaryStage.setScene(overviewScene);
         
         primaryStage.show();
         
@@ -157,6 +184,7 @@ public class MusicAppApplication extends Application {
         primaryStage.setScene(playerScene);
     }
     public void showOverviewPage() {
+    	overviewController.updateOverviewData();
         primaryStage.setScene(overviewScene);
     }
 
@@ -166,14 +194,19 @@ public class MusicAppApplication extends Application {
     }
     // Chuyển đến trang Favourite
     public void showFavouritesPage() {
+    	favouritesController.updateFavouritesData(); // Cập nhật lại dữ liệu yêu thích
         primaryStage.setScene(favouritesScene);
     }
     // Chuyển đến trang Library
     public void showHistoryPage() {
+    	historyController.updateHistoryData(); // Cập nhật lại dữ liệu lịch sử
         primaryStage.setScene(historyScene);
     }
 
-
+    public void showPlaylistDetail(Long playlistId) {
+        primaryStage.setScene(playlistDetailScene);
+        playlistDetailController.loadSongsByPlaylistId(playlistId);
+    }
     
     // Kiểm tra nếu có bài hát đang phát
     public boolean isSongPlaying() {
